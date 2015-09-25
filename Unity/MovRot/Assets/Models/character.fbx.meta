@@ -1,0 +1,168 @@
+fileFormatVersion: 2
+guid: ba23c4552f96d554eabfec19ba55664f
+timeCreated: 1443181230
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: all_objects:belly
+    100002: all_objects:character1
+    100004: all_objects:chest
+    100006: all_objects:head
+    100008: all_objects:hip
+    100010: all_objects:jaw
+    100012: all_objects:joint27
+    100014: all_objects:joint29
+    100016: all_objects:joint29 1
+    100018: all_objects:joint31
+    100020: all_objects:joint33
+    100022: all_objects:joint45
+    100024: all_objects:joint45 1
+    100026: all_objects:joint46
+    100028: all_objects:joint46 1
+    100030: all_objects:joint47
+    100032: all_objects:joint47 1
+    100034: all_objects:joint48
+    100036: all_objects:joint48 1
+    100038: all_objects:joint5
+    100040: all_objects:joint5 1
+    100042: all_objects:L_ArmLow
+    100044: all_objects:L_ArmUp
+    100046: all_objects:L_ear
+    100048: all_objects:L_Finger1
+    100050: all_objects:L_foot
+    100052: all_objects:L_Hand
+    100054: all_objects:L_Hand2
+    100056: all_objects:L_legLower
+    100058: all_objects:L_legUpper
+    100060: all_objects:L_Thumb1
+    100062: all_objects:L_Thumb2
+    100064: all_objects:L_toe
+    100066: all_objects:neck
+    100068: all_objects:R_ArmLow
+    100070: all_objects:R_ArmUp
+    100072: all_objects:R_ear
+    100074: all_objects:R_Finger1
+    100076: all_objects:R_foot
+    100078: all_objects:R_Hand
+    100080: all_objects:R_Hand2
+    100082: all_objects:R_legLower
+    100084: all_objects:R_legUpper
+    100086: all_objects:R_Thumb1
+    100088: all_objects:R_Thumb2
+    100090: all_objects:R_toe
+    100092: all_objects:snout
+    100094: //RootNode
+    400000: all_objects:belly
+    400002: all_objects:character1
+    400004: all_objects:chest
+    400006: all_objects:head
+    400008: all_objects:hip
+    400010: all_objects:jaw
+    400012: all_objects:joint27
+    400014: all_objects:joint29
+    400016: all_objects:joint29 1
+    400018: all_objects:joint31
+    400020: all_objects:joint33
+    400022: all_objects:joint45
+    400024: all_objects:joint45 1
+    400026: all_objects:joint46
+    400028: all_objects:joint46 1
+    400030: all_objects:joint47
+    400032: all_objects:joint47 1
+    400034: all_objects:joint48
+    400036: all_objects:joint48 1
+    400038: all_objects:joint5
+    400040: all_objects:joint5 1
+    400042: all_objects:L_ArmLow
+    400044: all_objects:L_ArmUp
+    400046: all_objects:L_ear
+    400048: all_objects:L_Finger1
+    400050: all_objects:L_foot
+    400052: all_objects:L_Hand
+    400054: all_objects:L_Hand2
+    400056: all_objects:L_legLower
+    400058: all_objects:L_legUpper
+    400060: all_objects:L_Thumb1
+    400062: all_objects:L_Thumb2
+    400064: all_objects:L_toe
+    400066: all_objects:neck
+    400068: all_objects:R_ArmLow
+    400070: all_objects:R_ArmUp
+    400072: all_objects:R_ear
+    400074: all_objects:R_Finger1
+    400076: all_objects:R_foot
+    400078: all_objects:R_Hand
+    400080: all_objects:R_Hand2
+    400082: all_objects:R_legLower
+    400084: all_objects:R_legUpper
+    400086: all_objects:R_Thumb1
+    400088: all_objects:R_Thumb2
+    400090: all_objects:R_toe
+    400092: all_objects:snout
+    400094: //RootNode
+    4300000: all_objects:character1
+    9500000: //RootNode
+    13700000: all_objects:character1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
