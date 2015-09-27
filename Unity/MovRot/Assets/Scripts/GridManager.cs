@@ -155,4 +155,14 @@ public class GridManager : MonoBehaviour {
 			return false;
 		return true;
 	}
+
+	public bool IsTile(Loc2D target) {
+		if (!IsInsideGrid (target))
+			return false;
+		return grid [target.x, target.y] != null ? true : false;
+	}
+
+	public Vector3 GridToPos(Loc2D loc) {
+		return new Vector3(loc.x * tileSize, 0, loc.y * tileSize);
+	}
 }
