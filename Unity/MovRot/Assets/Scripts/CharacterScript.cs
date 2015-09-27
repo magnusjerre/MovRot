@@ -31,32 +31,37 @@ public class CharacterScript : MonoBehaviour {
 				isMoving = false;
 				transform.localPosition = gridManager.GridToPos(gridTarget);
 				gridLoc = gridTarget;
+				gridManager.rotateTransf.localPosition = transform.localPosition;
 			}
+		} else if (gridManager.IsRotating()) {
+			//Do nothing
 		} else {
-			float vertical = Input.GetAxis ("Vertical");
-			float horizontal = Input.GetAxis ("Horizontal");
-			if (vertical != 0f  && horizontal != 0) {
-				return;	//Not legal to move diagonally
-			}
+
+			float moveVertical = Input.GetAxis ("Vertical");
+			float moveHorizontal = Input.GetAxis ("Horizontal");
+			bool rotateLeft = Input.GetMouseButton(0);
+			bool rotateRight = Input.GetMouseButton(1);
 			
-			if (vertical != 0f) {
-				int dy = vertical > 0 ? 1 : -1;
+			if (moveVertical != 0f) {
+				int dy = moveVertical > 0 ? 1 : -1;
 				transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z + dy));
 				gridTarget = new Loc2D(gridLoc.x, gridLoc.y + dy);
 				moveDir = new Vector3(0, 0, dy);
 				if (gridManager.IsTile(gridTarget)) {
 					isMoving = true;
 				}
-			}
-
-			if (horizontal != 0f) {
-				int dx = horizontal > 0 ? 1 : -1;
+			} else if (moveHorizontal != 0f) {
+				int dx = moveHorizontal > 0 ? 1 : -1;
 				transform.LookAt(new Vector3(transform.position.x + dx, transform.position.y, transform.position.z));
 				gridTarget = new Loc2D(gridLoc.x + dx, gridLoc.y);
 				moveDir = new Vector3(dx, 0, 0);
 				if (gridManager.IsTile(gridTarget)) {
 					isMoving = true;
 				}
+			} else if (rotateLeft) {
+				gridManager.RotateAbout(gridLoc, Direction.LEFT);
+			} else if (rotateRight) {
+				gridManager.RotateAbout(gridLoc, Direction.RIGHT);
 			}
 		}
 	

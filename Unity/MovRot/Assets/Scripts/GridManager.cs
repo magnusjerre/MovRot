@@ -20,25 +20,16 @@ public class GridManager : MonoBehaviour {
 		grid = new Tile[width, height];
 		Tile[] childTiles = GetComponentsInChildren<Tile> ();
 		foreach (Tile tile in childTiles) {
-			int gridX = ConvertPosToGrid(tile.transform.position.x);
-			int gridZ = ConvertPosToGrid(tile.transform.position.z);
-			tile.setGridPos(gridX, gridZ);
-			grid[gridX, gridZ] = tile;
+			Loc2D gridLoc = PosToGrid(tile.transform.position);
+			tile.GridLoc = gridLoc;
+			grid[gridLoc.x, gridLoc.y] = tile;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetMouseButton (1) && rotatingTiles == null) {
-			RotateAbout(new Loc2D((int)(rotateTransf.position.x), (int)(rotateTransf.position.z)), Direction.RIGHT);
-		}
-
-		if (Input.GetMouseButton (0) && rotatingTiles == null) {
-			RotateAbout(new Loc2D((int)(rotateTransf.position.x), (int)(rotateTransf.position.z)), Direction.LEFT);
-		}
-
-		if (rotatingTiles != null) {	//Means it's rotating
+		if (IsRotating()) {	//Means it's rotating
 			float dRot = (Time.deltaTime / rotationTime) * rotateAmount;
 			elapsedRotAmount += dRot;
 			rotateTransf.Rotate(0, dRot * (int)rotateDir, 0);
@@ -53,7 +44,7 @@ public class GridManager : MonoBehaviour {
 					if (rotatingTiles[i] != null) {
 						Tile tile = rotatingTiles[i];
 						tile.transform.parent = transform;
-						tile.setGridPos(rotateTargets[i].x, rotateTargets[i].y);
+						tile.GridLoc = rotateTargets[i];
 						tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
 						tile.transform.LookAt(tile.transform.position + Vector3.forward);
 						grid[rotateTargets[i].x, rotateTargets[i].y] = tile;
@@ -69,9 +60,7 @@ public class GridManager : MonoBehaviour {
 	
 	}
 
-	int ConvertPosToGrid(float pos) {
-		return (int)(pos / tileSize);
-	}
+
 
 	public void RotateAbout(Loc2D loc, Direction dir) {
 		if (CanRotate (loc)) {
@@ -81,7 +70,7 @@ public class GridManager : MonoBehaviour {
 			foreach (Tile tile in rotatingTiles) {
 				if (tile != null) {
 					tile.transform.parent = rotateTransf;
-					grid[tile.GetGridPos().x, tile.GetGridPos().y] = null;
+					grid[tile.GridLoc.x, tile.GridLoc.y] = null;
 				}
 			}
 		}
@@ -90,19 +79,19 @@ public class GridManager : MonoBehaviour {
 	Loc2D[] GetTargetRotations(Tile[] tiles, Direction dir) {
 		Loc2D[] targets = new Loc2D[4];
 		if (tiles [0] != null) {
-			targets[0] = new Loc2D((int)(tiles[0].GetGridPos().x + ((int)dir) * tileSize), (int)(tiles[0].GetGridPos().y - tileSize));
+			targets[0] = new Loc2D((int)(tiles[0].GridLoc.x + ((int)dir) * tileSize), (int)(tiles[0].GridLoc.y - tileSize));
 		}
 
 		if (tiles [1] != null) {
-			targets[1] = new Loc2D((int)(tiles[1].GetGridPos().x - tileSize), (int)(tiles[1].GetGridPos().y - ((int)dir) * tileSize));
+			targets[1] = new Loc2D((int)(tiles[1].GridLoc.x - tileSize), (int)(tiles[1].GridLoc.y - ((int)dir) * tileSize));
 		}
 
 		if (tiles [2] != null) {
-			targets[2] = new Loc2D((int)(tiles[2].GetGridPos().x - ((int)dir) * tileSize), (int)(tiles[2].GetGridPos().y + tileSize));
+			targets[2] = new Loc2D((int)(tiles[2].GridLoc.x - ((int)dir) * tileSize), (int)(tiles[2].GridLoc.y + tileSize));
 		}
 
 		if (tiles [3] != null) {
-			targets[3] = new Loc2D((int)(tiles[3].GetGridPos().x + tileSize), (int)(tiles[3].GetGridPos().y + ((int)dir) * tileSize));
+			targets[3] = new Loc2D((int)(tiles[3].GridLoc.x + tileSize), (int)(tiles[3].GridLoc.y + ((int)dir) * tileSize));
 		}
 
        return targets;
@@ -164,5 +153,13 @@ public class GridManager : MonoBehaviour {
 
 	public Vector3 GridToPos(Loc2D loc) {
 		return new Vector3(loc.x * tileSize, 0, loc.y * tileSize);
+	}
+
+	public Loc2D PosToGrid(Vector3 pos) {
+		return new Loc2D ((int)(pos.x / tileSize), (int)(pos.z / tileSize));
+	}
+
+	public bool IsRotating() {
+		return rotatingTiles != null;
 	}
 }

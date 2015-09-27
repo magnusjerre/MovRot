@@ -2,9 +2,14 @@
 using System.Collections;
 
 public class Tile : MonoBehaviour {
-
-	private int gridX, gridY;
 	
+	private Loc2D gridLoc;
+	public Loc2D GridLoc  {
+		set { this.gridLoc = value; }
+		get { return this.gridLoc; }
+	}
+
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -14,22 +19,8 @@ public class Tile : MonoBehaviour {
 	
 	}
 
-	public void setGridPos(int x, int y) {
-		gridX = x;
-		gridY = y;
-	}
-
-	public Loc2D GetGridPos() {
-		return new Loc2D (gridX, gridY);
-	}
-
-	public void removeFromGrid() {
-		gridX = -1;
-		gridY = -1;
-	}
-
 	public override string ToString ()
 	{
-		return "gridX: " + gridX + ", gridY: " + gridY;
+		return "gridX: " + gridLoc.x + ", gridY: " + gridLoc.y;
 	}
 }
