@@ -12,9 +12,10 @@ public class GridManager : MonoBehaviour {
 	private Tile[,] grid;
 	private Tile[] rotatingTiles;
 	private Loc2D[] rotateTargets;
-	private float rotateAmount = 90f;
-	private float elapsedRotAmount = 0f;
 	private Direction rotateDir;
+
+	private Quaternion start, end;
+	private float elapsedRotationTime = 0f;
 
 	private bool isRotating;
 
@@ -33,30 +34,34 @@ public class GridManager : MonoBehaviour {
 	void Update () {
 
 		if (isRotating) {	//Means it's rotating
-			float dRot = (Time.deltaTime / rotationTime) * rotateAmount;
-			elapsedRotAmount += dRot;
-			rotateTransf.Rotate(0, dRot * (int)rotateDir, 0);
+
+			elapsedRotationTime += Time.deltaTime;
+			if (elapsedRotationTime > rotationTime) {
+				elapsedRotationTime = rotationTime;
+			}
+			rotateTransf.rotation = Quaternion.Slerp(start, end, elapsedRotationTime / rotationTime);
+
 			foreach (Tile tile in rotatingTiles) {
 				if (tile != null)
-					tile.transform.LookAt(tile.transform.position + Vector3.forward);
+					tile.transform.LookAt(tile.transform.position + transform.forward);
 			}
 
-
-			if (elapsedRotAmount >= rotateAmount) {
+			if (elapsedRotationTime == rotationTime) {
 				for (int i = 0; i < rotatingTiles.Length; i++) {
 					if (rotatingTiles[i] != null) {
 						Tile tile = rotatingTiles[i];
 						tile.transform.parent = transform;
 						tile.GridLoc = rotateTargets[i];
-						tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
-						tile.transform.LookAt(tile.transform.position + Vector3.forward);
 						grid[rotateTargets[i].x, rotateTargets[i].y] = tile;
+						//In case of any slight offset
+						tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
+						tile.transform.LookAt(tile.transform.position + transform.forward);
 					}
 				}
+				rotateTransf.LookAt(rotateTransf.position + transform.forward);
 
-				elapsedRotAmount = 0f;
-				rotateTransf.LookAt(rotateTransf.position + Vector3.forward);
 				isRotating = false;
+				elapsedRotationTime = 0f;
 			}
 		}
 	
@@ -67,6 +72,7 @@ public class GridManager : MonoBehaviour {
 	public void RotateAbout(Loc2D loc, Direction dir) {
 		if (CanRotate (loc)) {
 			rotateDir = dir;
+			rotateTransf.localPosition = new Vector3(loc.x * tileSize, 0, loc.y * tileSize);
 			rotatingTiles = GetSurroundingTiles(loc.x, loc.y);
 			rotateTargets = GetTargetRotations(rotatingTiles, dir);
 			foreach (Tile tile in rotatingTiles) {
@@ -76,6 +82,9 @@ public class GridManager : MonoBehaviour {
 				}
 			}
 			isRotating = true;
+
+			start = rotateTransf.rotation;
+			end = Quaternion.LookRotation(rotateTransf.right * (int)dir, rotateTransf.up);
 		}
 	}
 

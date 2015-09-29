@@ -32,7 +32,6 @@ public class CharacterScript : MonoBehaviour {
 				isMoving = false;
 				transform.localPosition = gridManager.GridToPos(gridTarget);
 				gridLoc = gridTarget;
-				gridManager.rotateTransf.localPosition = transform.localPosition;
 				anim.SetFloat("speed", 0f);
 			}
 		} else if (gridManager.IsRotatingAnim()) {
