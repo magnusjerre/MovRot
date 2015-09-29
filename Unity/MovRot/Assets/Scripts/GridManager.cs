@@ -15,7 +15,9 @@ public class GridManager : MonoBehaviour {
 	private float rotateAmount = 90f;
 	private float elapsedRotAmount = 0f;
 	private Direction rotateDir;
-	
+
+	private bool isRotating;
+
 	// Use this for initialization
 	void Start () {
 		grid = new Tile[width, height];
@@ -30,7 +32,7 @@ public class GridManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (IsRotating()) {	//Means it's rotating
+		if (isRotating) {	//Means it's rotating
 			float dRot = (Time.deltaTime / rotationTime) * rotateAmount;
 			elapsedRotAmount += dRot;
 			rotateTransf.Rotate(0, dRot * (int)rotateDir, 0);
@@ -53,9 +55,8 @@ public class GridManager : MonoBehaviour {
 				}
 
 				elapsedRotAmount = 0f;
-				rotatingTiles = null;
-				rotateTargets = null;
 				rotateTransf.LookAt(rotateTransf.position + Vector3.forward);
+				isRotating = false;
 			}
 		}
 	
@@ -74,6 +75,7 @@ public class GridManager : MonoBehaviour {
 					grid[tile.GridLoc.x, tile.GridLoc.y] = null;
 				}
 			}
+			isRotating = true;
 		}
 	}
 
@@ -160,7 +162,7 @@ public class GridManager : MonoBehaviour {
 		return new Loc2D ((int)(pos.x / tileSize), (int)(pos.z / tileSize));
 	}
 
-	public bool IsRotating() {
-		return rotatingTiles != null;
+	public bool IsRotatingAnim() {
+		return isRotating;
 	}
 }

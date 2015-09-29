@@ -35,7 +35,7 @@ public class CharacterScript : MonoBehaviour {
 				gridManager.rotateTransf.localPosition = transform.localPosition;
 				anim.SetFloat("speed", 0f);
 			}
-		} else if (gridManager.IsRotating()) {
+		} else if (gridManager.IsRotatingAnim()) {
 			//Do nothing
 		} else {
 
