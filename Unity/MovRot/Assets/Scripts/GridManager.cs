@@ -7,9 +7,9 @@ public class GridManager : MonoBehaviour {
 	public float tileSize = 1.0f;
 	public float tileHeight = 0.1f;
 	public Transform rotateTransf;
-	public float rotationTime = 0.5f;
-	public float verticalTime = 0.5f;
-	public float verticalDisplacement = 0.25f;
+	public float rotationTime = 0.3f;
+	public float verticalTime = 0.1f;
+	public float verticalDisplacement = 0.1f;
 
 	private Tile[,] grid;
 	private Tile[] rotatingTiles;
@@ -23,6 +23,7 @@ public class GridManager : MonoBehaviour {
 
 	private float verticalTimeElapsed = 0f;
 	private bool isMovingUp;
+	private bool isMovingDown;
 
 	// Use this for initialization
 	void Start () {
@@ -39,7 +40,9 @@ public class GridManager : MonoBehaviour {
 	void Update () {
 
 		if (isMovingUp) {
-			MoveUp();
+			MoveUp ();
+		} else if(isMovingDown) {
+			MoveDown();
 		} else if (isRotating) {	//Means it's rotating
 
 			elapsedRotationTime += Time.deltaTime;
@@ -54,20 +57,8 @@ public class GridManager : MonoBehaviour {
 			}
 
 			if (elapsedRotationTime == rotationTime) {
-				for (int i = 0; i < rotatingTiles.Length; i++) {
-					if (rotatingTiles[i] != null) {
-						Tile tile = rotatingTiles[i];
-						tile.transform.parent = transform;
-						tile.GridLoc = rotateTargets[i];
-						grid[rotateTargets[i].x, rotateTargets[i].y] = tile;
-						//In case of any slight offset
-						tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
-						tile.transform.LookAt(tile.transform.position + transform.forward);
-					}
-				}
-				rotateTransf.LookAt(rotateTransf.position + transform.forward);
-
 				isRotating = false;
+				isMovingDown = true;
 				elapsedRotationTime = 0f;
 			}
 		}
@@ -88,6 +79,37 @@ public class GridManager : MonoBehaviour {
 			isMovingUp = false;
 			verticalTimeElapsed = 0f;
 			isRotating = true;
+		}
+
+	}
+
+	void MoveDown() {
+
+		verticalTimeElapsed += Time.deltaTime;
+		if (verticalTimeElapsed > verticalTime)
+			verticalTimeElapsed = verticalTime;
+
+		float newY = Mathf.Lerp (verticalDisplacement, 0f, verticalTimeElapsed / verticalTime);
+		Vector3 pos = rotateTransf.localPosition;
+		rotateTransf.localPosition = new Vector3 (pos.x, newY, pos.z);
+
+		if (verticalTimeElapsed == verticalTime) {
+			isMovingDown = false;
+			verticalTimeElapsed = 0f;
+
+			//Update the tiles placements and the grid manager's references to them
+			for (int i = 0; i < rotatingTiles.Length; i++) {
+				if (rotatingTiles[i] != null) {
+					Tile tile = rotatingTiles[i];
+					tile.transform.parent = transform;
+					tile.GridLoc = rotateTargets[i];
+					grid[rotateTargets[i].x, rotateTargets[i].y] = tile;
+					//In case of any slight offset
+					tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
+					tile.transform.LookAt(tile.transform.position + transform.forward);
+				}
+			}
+			rotateTransf.LookAt(rotateTransf.position + transform.forward);
 		}
 
 	}
@@ -196,6 +218,6 @@ public class GridManager : MonoBehaviour {
 	}
 
 	public bool IsRotatingAnim() {
-		return isMovingUp || isRotating;
+		return isMovingUp || isMovingDown || isRotating;
 	}
 }
