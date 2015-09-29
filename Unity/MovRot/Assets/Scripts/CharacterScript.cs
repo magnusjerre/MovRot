@@ -5,6 +5,7 @@ public class CharacterScript : MonoBehaviour {
 
 	public float moveSpeed = 1f;
 	public GridManager gridManager;
+	public Animator anim;
 
 	private Loc2D gridLoc;
 	private float currentSpeed;
@@ -32,6 +33,7 @@ public class CharacterScript : MonoBehaviour {
 				transform.localPosition = gridManager.GridToPos(gridTarget);
 				gridLoc = gridTarget;
 				gridManager.rotateTransf.localPosition = transform.localPosition;
+				anim.SetFloat("speed", 0f);
 			}
 		} else if (gridManager.IsRotating()) {
 			//Do nothing
@@ -49,6 +51,7 @@ public class CharacterScript : MonoBehaviour {
 				moveDir = new Vector3(0, 0, dy);
 				if (gridManager.IsTile(gridTarget)) {
 					isMoving = true;
+					anim.SetFloat("speed", 1f);
 				}
 			} else if (moveHorizontal != 0f) {
 				int dx = moveHorizontal > 0 ? 1 : -1;
@@ -57,6 +60,7 @@ public class CharacterScript : MonoBehaviour {
 				moveDir = new Vector3(dx, 0, 0);
 				if (gridManager.IsTile(gridTarget)) {
 					isMoving = true;
+					anim.SetFloat("speed", 1f);
 				}
 			} else if (rotateLeft) {
 				gridManager.RotateAbout(gridLoc, Direction.LEFT);

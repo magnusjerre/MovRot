@@ -5,6 +5,7 @@ public class GridManager : MonoBehaviour {
 
 	public int width, height;
 	public float tileSize = 1.0f;
+	public float tileHeight = 0.1f;
 	public Transform rotateTransf;
 	public float rotationTime = 0.5f;
 
@@ -152,7 +153,7 @@ public class GridManager : MonoBehaviour {
 	}
 
 	public Vector3 GridToPos(Loc2D loc) {
-		return new Vector3(loc.x * tileSize, 0, loc.y * tileSize);
+		return new Vector3(loc.x * tileSize, tileHeight / 2, loc.y * tileSize);
 	}
 
 	public Loc2D PosToGrid(Vector3 pos) {
