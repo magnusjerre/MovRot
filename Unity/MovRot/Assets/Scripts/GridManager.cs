@@ -8,6 +8,8 @@ public class GridManager : MonoBehaviour {
 	public float tileHeight = 0.1f;
 	public Transform rotateTransf;
 	public float rotationTime = 0.5f;
+	public float verticalTime = 0.5f;
+	public float verticalDisplacement = 0.25f;
 
 	private Tile[,] grid;
 	private Tile[] rotatingTiles;
@@ -18,6 +20,9 @@ public class GridManager : MonoBehaviour {
 	private float elapsedRotationTime = 0f;
 
 	private bool isRotating;
+
+	private float verticalTimeElapsed = 0f;
+	private bool isMovingUp;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +38,9 @@ public class GridManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (isRotating) {	//Means it's rotating
+		if (isMovingUp) {
+			MoveUp();
+		} else if (isRotating) {	//Means it's rotating
 
 			elapsedRotationTime += Time.deltaTime;
 			if (elapsedRotationTime > rotationTime) {
@@ -67,6 +74,23 @@ public class GridManager : MonoBehaviour {
 	
 	}
 
+	void MoveUp() {
+
+		verticalTimeElapsed += Time.deltaTime;
+		if (verticalTimeElapsed > verticalTime)
+			verticalTimeElapsed = verticalTime;
+
+		float newY = Mathf.Lerp (0f, verticalDisplacement, verticalTimeElapsed / verticalTime);
+		Vector3 pos = rotateTransf.localPosition;
+		rotateTransf.localPosition = new Vector3 (pos.x, newY, pos.z);
+
+		if (verticalTimeElapsed == verticalTime) {
+			isMovingUp = false;
+			verticalTimeElapsed = 0f;
+			isRotating = true;
+		}
+
+	}
 
 
 	public void RotateAbout(Loc2D loc, Direction dir) {
@@ -81,7 +105,7 @@ public class GridManager : MonoBehaviour {
 					grid[tile.GridLoc.x, tile.GridLoc.y] = null;
 				}
 			}
-			isRotating = true;
+			isMovingUp = true;
 
 			start = rotateTransf.rotation;
 			end = Quaternion.LookRotation(rotateTransf.right * (int)dir, rotateTransf.up);
@@ -172,6 +196,6 @@ public class GridManager : MonoBehaviour {
 	}
 
 	public bool IsRotatingAnim() {
-		return isRotating;
+		return isMovingUp || isRotating;
 	}
 }
