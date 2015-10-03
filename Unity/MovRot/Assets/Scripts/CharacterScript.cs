@@ -15,10 +15,13 @@ public class CharacterScript : MonoBehaviour {
 	private Loc2D gridTarget;
 	private float animTime;
 
+	private GameControllerScript gameController;
+
 	// Use this for initialization
 	void Start () {
 		gridLoc = new Loc2D (2, 1);
 		animTime = 1f / moveSpeed;
+		gameController = GameObject.FindObjectOfType<GameControllerScript> ();
 	}
 	
 	// Update is called once per frame
@@ -36,7 +39,8 @@ public class CharacterScript : MonoBehaviour {
 			}
 		} else if (gridManager.IsRotatingAnim()) {
 			//Do nothing
-		} else {
+		} else if (!gameController.IsGameOver) {
+
 
 			float moveVertical = Input.GetAxis ("Vertical");
 			float moveHorizontal = Input.GetAxis ("Horizontal");
