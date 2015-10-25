@@ -7,6 +7,10 @@ public struct Loc2D
 		this.y = y;
 	}
 
+	public static Loc2D Default() {
+		return new Loc2D (-1, -1);
+	}
+
 	public override string ToString() {
 		return "x: " + x + ", y: " + y;
 	}

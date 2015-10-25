@@ -36,6 +36,8 @@ public class CharacterScript : MonoBehaviour {
 				transform.localPosition = gridManager.GridToPos(gridTarget);
 				gridLoc = gridTarget;
 				anim.SetFloat("speed", 0f);
+				gridManager.GetTile(new Loc2D((int)transform.localPosition.x, (int)transform.localPosition.z)).PerformAction(ActionType.MOVEMENT);	//Register movement with tile
+				//Should add some kind of check whether the character is actually standing on something or not...
 			}
 		} else if (gridManager.IsRotatingAnim()) {
 			//Do nothing

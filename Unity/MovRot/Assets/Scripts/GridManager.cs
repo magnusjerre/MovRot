@@ -97,7 +97,7 @@ public class GridManager : MonoBehaviour {
 			isMovingDown = false;
 			verticalTimeElapsed = 0f;
 
-			//Update the tiles placements and the grid manager's references to them
+			//Update the tiles placements and the grid manager's references to them when finished
 			for (int i = 0; i < rotatingTiles.Length; i++) {
 				if (rotatingTiles[i] != null) {
 					Tile tile = rotatingTiles[i];
@@ -107,6 +107,7 @@ public class GridManager : MonoBehaviour {
 					//In case of any slight offset
 					tile.transform.localPosition = new Vector3(rotateTargets[i].x * tileSize, 0, rotateTargets[i].y * tileSize);
 					tile.transform.LookAt(tile.transform.position + transform.forward);
+					tile.PerformAction(ActionType.ROTATION);
 				}
 			}
 			rotateTransf.LookAt(rotateTransf.position + transform.forward);
@@ -229,5 +230,17 @@ public class GridManager : MonoBehaviour {
 
 	public bool IsRotatingAnim() {
 		return isMovingUp || isMovingDown || isRotating;
+	}
+
+	public void RemoveTile(Tile tile) {
+		grid [tile.GridLoc.x, tile.GridLoc.y] = null;
+		tile.GridLoc = Loc2D.Default();
+	}
+
+	public Tile GetTile(Loc2D loc) {
+		if (IsTile (loc))
+			return grid [loc.x, loc.y];
+		else //Handles out of bounds
+			return null;
 	}
 }
