@@ -8,6 +8,8 @@ public class Tile : MonoBehaviour {
 		set { this.gridLoc = value; }
 		get { return this.gridLoc; }
 	}
+	
+	public bool IsStatic = false;
 
 
 	// Use this for initialization

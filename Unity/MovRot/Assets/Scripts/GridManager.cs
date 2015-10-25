@@ -156,9 +156,19 @@ public class GridManager : MonoBehaviour {
 	}
 
 	bool CanRotate(Loc2D loc) {
+		//The following two checks for tiles at the edge of the grid
 		if (loc.x < 1 || loc.x > width - 2)
 			return false;
 		if (loc.y < 1 || loc.y > height - 2)
+			return false;
+		//The following two checks for static tiles
+		if (IsTile(new Loc2D(loc.x, loc.y + 1)) && grid [loc.x, loc.y + 1].IsStatic)
+			return false;
+		if (IsTile(new Loc2D(loc.x + 1, loc.y)) && grid [loc.x + 1, loc.y].IsStatic)
+			return false;
+		if (IsTile(new Loc2D(loc.x, loc.y - 1)) && grid [loc.x, loc.y - 1].IsStatic)
+			return false;
+		if (IsTile(new Loc2D(loc.x - 1, loc.y)) && grid [loc.x - 1, loc.y].IsStatic)
 			return false;
 		return true;
 	}
