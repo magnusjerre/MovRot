@@ -14,5 +14,13 @@ public struct Loc2D
 	public override string ToString() {
 		return "x: " + x + ", y: " + y;
 	}
+
+	public Loc2D WithY(int dy) {
+		return new Loc2D(x, this.y + dy);
+	}
+
+	public Loc2D WithX(int dx) {
+		return new Loc2D (this.x + dx, y);
+	}
 }
 

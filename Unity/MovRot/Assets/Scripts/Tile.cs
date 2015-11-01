@@ -7,9 +7,12 @@ public class Tile : MonoBehaviour {
 	public Loc2D GridLoc;
 	
 	public bool IsStatic = false;
+	
+	public Element element;
+	public Elemental elemental;
 
 	public int HP = 5;
-	public ActionType[] actionTypes;
+	public ActionType[] actionTypes = new ActionType[0];
 	public void PerformAction(ActionType type) {
 		if (Array.Exists (actionTypes, at => type == at)) {
 			if (--HP < 1) {
@@ -30,6 +33,8 @@ public class Tile : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gridManager = GetComponentInParent<GridManager> ();
+		elemental.tile = this;
+		elemental.element = element;
 	}
 	
 	// Update is called once per frame

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour {
 
@@ -111,6 +112,12 @@ public class GridManager : MonoBehaviour {
 				}
 			}
 			rotateTransf.LookAt(rotateTransf.position + transform.forward);
+			for (int i = 0; i < rotatingTiles.Length; i++) {	//Must run in separate for loop, otherwise all rotated tiles won't be checked for consume
+				if (rotatingTiles[i] != null) {
+					Tile tile = rotatingTiles[i];
+					tile.elemental.Consumes(this);
+				}
+			}
 		}
 
 	}
@@ -242,5 +249,55 @@ public class GridManager : MonoBehaviour {
 			return grid [loc.x, loc.y];
 		else //Handles out of bounds
 			return null;
+	}
+
+	public Tile[] Encircles (Tile tile, Element element)
+	{
+		Loc2D start = tile.GridLoc;
+		List<Tile> encircledTiles = new List<Tile> ();
+		if (TileEncircled (start.WithY (1), element)) {
+			encircledTiles.Add (GetTile (start.WithY(1)));
+		}
+		if (TileEncircled (start.WithY (-1), element)) {
+			encircledTiles.Add (GetTile (start.WithY(-1)));
+		}
+		if (TileEncircled (start.WithX (1), element)) {
+			encircledTiles.Add (GetTile (start.WithX(1)));
+		}
+		if (TileEncircled (start.WithX (-1), element)) {
+			encircledTiles.Add (GetTile (start.WithX(-1)));
+		}
+		if (encircledTiles.Count > 0)
+			return encircledTiles.ToArray ();
+		return new Tile[0];
+	}
+
+	private bool TileEncircled(Loc2D loc, Element element) {
+		if (!IsTile (loc))
+			return false;
+		return Encircled (loc, element);
+	}
+
+	public bool Encircled (Loc2D loc, Element element) {
+
+		if (!IsTileElementType (loc.WithY (1), element))
+			return false;
+		if (!IsTileElementType (loc.WithX (1), element))
+			return false;
+		if (!IsTileElementType (loc.WithY (-1), element))
+			return false;
+		if (!IsTileElementType (loc.WithX (-1), element))
+			return false;
+
+		return true;
+	}
+
+	private bool IsTileElementType(Loc2D loc, Element element) {
+		if (!IsTile (loc))
+			return false;
+		if (GetTile (loc).elemental.element != element)
+			return false;
+
+		return true;
 	}
 }
