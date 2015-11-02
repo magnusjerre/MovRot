@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour, Listener {
 	
 	public bool IsStatic = false;
 	
-	public Element element;
+	public Element elementToBe;
 	public Elemental elemental;
 	public bool IsSurrounded { get; set; }
 
@@ -35,8 +35,10 @@ public class Tile : MonoBehaviour, Listener {
 	// Use this for initialization
 	void Start () {
 		gridManager = GetComponentInParent<GridManager> ();
-		elemental.tile = this;
-		elemental.element = element;
+		elemental = new Elemental () {
+			element = this.elementToBe,
+			tile = this
+		};
 		timer = new Timer (this, 1f);
 	}
 	

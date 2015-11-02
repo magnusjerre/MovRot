@@ -255,17 +255,25 @@ public class GridManager : MonoBehaviour {
 	{
 		Loc2D start = tile.GridLoc;
 		List<Tile> encircledTiles = new List<Tile> ();
-		if (TileEncircled (start.WithY (1), element)) {
-			encircledTiles.Add (GetTile (start.WithY(1)));
+		if (TileEncircled (start.WithY (1), element)){
+			if (GetTile(start.WithY(1)).elemental.element != element) {
+				encircledTiles.Add (GetTile (start.WithY(1)));
+			}
 		}
 		if (TileEncircled (start.WithY (-1), element)) {
-			encircledTiles.Add (GetTile (start.WithY(-1)));
+			if (GetTile(start.WithY(-1)).elemental.element != element) {
+				encircledTiles.Add (GetTile (start.WithY(-1)));
+			}
 		}
 		if (TileEncircled (start.WithX (1), element)) {
-			encircledTiles.Add (GetTile (start.WithX(1)));
+			if (GetTile(start.WithX(1)).elemental.element != element) {
+				encircledTiles.Add (GetTile (start.WithX(1)));
+			}
 		}
 		if (TileEncircled (start.WithX (-1), element)) {
-			encircledTiles.Add (GetTile (start.WithX(-1)));
+			if (GetTile(start.WithX(-1)).elemental.element != element) {
+				encircledTiles.Add (GetTile (start.WithX(-1)));
+			}
 		}
 		if (encircledTiles.Count > 0)
 			return encircledTiles.ToArray ();
