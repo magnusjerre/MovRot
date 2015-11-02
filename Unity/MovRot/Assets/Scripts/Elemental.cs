@@ -16,6 +16,7 @@ public class Elemental {
 
 		Tile[] tilesEncircled = gridManager.Encircles (tile, element);
 		foreach (Tile tile2 in tilesEncircled) {
+			tile2.Surround(element);
 			Debug.Log("tile: " + tile2 + ", changed");
 		}
 		if (tilesEncircled.Length > 0) {

@@ -2,14 +2,16 @@
 using System.Collections;
 using System;
 
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour, Listener {
 
 	public Loc2D GridLoc;
+	private Timer timer;
 	
 	public bool IsStatic = false;
 	
 	public Element element;
 	public Elemental elemental;
+	public bool IsSurrounded { get; set; }
 
 	public int HP = 5;
 	public ActionType[] actionTypes = new ActionType[0];
@@ -35,15 +37,51 @@ public class Tile : MonoBehaviour {
 		gridManager = GetComponentInParent<GridManager> ();
 		elemental.tile = this;
 		elemental.element = element;
+		timer = new Timer (this, 1f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (IsSurrounded) {
+			if (IsSurrounded = IsEncircled()) {
+				timer.Update (Time.deltaTime);
+			} else {
+				timer.Reset();
+			}
+		}
 	}
+
+	public void Surround(Element e) {
+		IsSurrounded = true;
+		timer.Start ();
+	}
+
+	private bool IsEncircled() {
+		bool result = false;
+		foreach (Element e in Enum.GetValues(typeof(Element))) {
+			if (e != elemental.element && e != Element.NONE) {
+				if (gridManager.Encircled(GridLoc, e)) {
+					result = true;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+
 
 	public override string ToString ()
 	{
 		return "gridX: " + GridLoc.x + ", gridY: " + GridLoc.y;
 	}
+
+
+	#region Listener implementation
+	public void Notify (object timer)
+	{
+		Debug.Log ("Notified: " + GridLoc);  
+		((Timer)timer).Reset ();
+	}
+	#endregion
 }
