@@ -1,26 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Elemental {
+public abstract class Elemental : MonoBehaviour {
 	
-	public Element element;
+	protected Element element;
+	public Element Element { get { return element; } }
 
-	Element[] consumedBy, consumes;
-	public Tile tile;
+	protected Element[] consumedBy, consumes;
+	protected Tile tile;
 
-	public bool Consumes(GridManager gridManager) {
-		if (element == Element.NONE) {
-			return false;
+	void Start() {
+		tile = GetComponentInParent<Tile> ();
+	}
+
+	public virtual bool ConsumesAnyAdjacentElementals(GridManager gridManager) {
+		Tile[] adjacentTiles = new Tile[4];
+		Tile[] consumedTiles = new Tile[4];
+		int i = 0;
+		bool consumedAnything = false;
+		adjacentTiles = gridManager.GetAdjacentTiles (tile.GridLoc);
+		foreach (Tile t in adjacentTiles) {
+			if (t != null) {
+				if (Consumes(this, t.elemental)) {
+					consumedTiles[i] = t;
+					t.Surround(element);
+					Debug.Log("tile: " + t + ", will be changed");
+					consumedAnything = true;
+				}
+			} else {
+				consumedTiles[i] = null;
+			}
+			i++;
 		}
+		return consumedAnything;
+	}
 
-		Tile[] tilesEncircled = gridManager.Encircles (tile, element);
-		foreach (Tile tile2 in tilesEncircled) {
-			tile2.Surround(element);
-			Debug.Log("tile: " + tile2 + ", changed");
-		}
-		if (tilesEncircled.Length > 0) {
+	protected abstract bool IsConsumabledBy(Elemental elemental);
+
+	protected bool Consumes(Elemental consumer, Elemental consumee) {
+		if (consumee.IsConsumabledBy (consumer)) {
+			Tile[] adjacentTiles = consumee.tile.GridManager.GetAdjacentTiles(consumee.tile.GridLoc);
+			foreach (Tile t in adjacentTiles) {
+				if (t == null) {
+					return false;
+				}
+				if (t.elemental.element != consumer.element) {
+					return false;
+				}
+			}
 			return true;
 		}
+
 		return false;
 	}
 

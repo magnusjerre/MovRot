@@ -31,14 +31,12 @@ public class Tile : MonoBehaviour, Listener {
 	}
 
 	private GridManager gridManager;
+	public GridManager GridManager { get { return gridManager; } }
 
 	// Use this for initialization
 	void Start () {
 		gridManager = GetComponentInParent<GridManager> ();
-		elemental = new Elemental () {
-			element = this.elementToBe,
-			tile = this
-		};
+		elemental = GetComponentInChildren<Elemental> ();
 		timer = new Timer (this, 1f);
 	}
 	
@@ -61,7 +59,7 @@ public class Tile : MonoBehaviour, Listener {
 	private bool IsEncircled() {
 		bool result = false;
 		foreach (Element e in Enum.GetValues(typeof(Element))) {
-			if (e != elemental.element && e != Element.NONE) {
+			if (e != elemental.Element && e != Element.NONE) {
 				if (gridManager.Encircled(GridLoc, e)) {
 					result = true;
 					break;

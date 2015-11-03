@@ -115,7 +115,7 @@ public class GridManager : MonoBehaviour {
 			for (int i = 0; i < rotatingTiles.Length; i++) {	//Must run in separate for loop, otherwise all rotated tiles won't be checked for consume
 				if (rotatingTiles[i] != null) {
 					Tile tile = rotatingTiles[i];
-					tile.elemental.Consumes(this);
+					tile.elemental.ConsumesAnyAdjacentElementals(this);
 				}
 			}
 		}
@@ -256,22 +256,22 @@ public class GridManager : MonoBehaviour {
 		Loc2D start = tile.GridLoc;
 		List<Tile> encircledTiles = new List<Tile> ();
 		if (TileEncircled (start.WithY (1), element)){
-			if (GetTile(start.WithY(1)).elemental.element != element) {
+			if (GetTile(start.WithY(1)).elemental.Element != element) {
 				encircledTiles.Add (GetTile (start.WithY(1)));
 			}
 		}
 		if (TileEncircled (start.WithY (-1), element)) {
-			if (GetTile(start.WithY(-1)).elemental.element != element) {
+			if (GetTile(start.WithY(-1)).elemental.Element != element) {
 				encircledTiles.Add (GetTile (start.WithY(-1)));
 			}
 		}
 		if (TileEncircled (start.WithX (1), element)) {
-			if (GetTile(start.WithX(1)).elemental.element != element) {
+			if (GetTile(start.WithX(1)).elemental.Element != element) {
 				encircledTiles.Add (GetTile (start.WithX(1)));
 			}
 		}
 		if (TileEncircled (start.WithX (-1), element)) {
-			if (GetTile(start.WithX(-1)).elemental.element != element) {
+			if (GetTile(start.WithX(-1)).elemental.Element != element) {
 				encircledTiles.Add (GetTile (start.WithX(-1)));
 			}
 		}
@@ -303,9 +303,18 @@ public class GridManager : MonoBehaviour {
 	private bool IsTileElementType(Loc2D loc, Element element) {
 		if (!IsTile (loc))
 			return false;
-		if (GetTile (loc).elemental.element != element)
+		if (GetTile (loc).elemental.Element != element)
 			return false;
 
 		return true;
+	}
+
+	public Tile[] GetAdjacentTiles(Loc2D loc) {
+		Tile[] adjacentTiles = new Tile[4];
+		adjacentTiles [0] = GetTile (loc.WithY (1));
+		adjacentTiles [1] = GetTile (loc.WithX (1));
+		adjacentTiles [2] = GetTile (loc.WithY (-1));
+		adjacentTiles [3] = GetTile (loc.WithX (-1));
+		return adjacentTiles;
 	}
 }
