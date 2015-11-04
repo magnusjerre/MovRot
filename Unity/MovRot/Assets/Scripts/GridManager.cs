@@ -116,6 +116,7 @@ public class GridManager : MonoBehaviour {
 				if (rotatingTiles[i] != null) {
 					Tile tile = rotatingTiles[i];
 					tile.elemental.ConsumesAnyAdjacentElementals(this);
+					tile.elemental.ConsumedByAdjacent(this);
 				}
 			}
 		}
@@ -133,6 +134,7 @@ public class GridManager : MonoBehaviour {
 				if (tile != null) {
 					tile.transform.parent = rotateTransf;
 					grid[tile.GridLoc.x, tile.GridLoc.y] = null;
+					tile.timer.Reset();
 				}
 			}
 			isMovingUp = true;

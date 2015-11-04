@@ -12,6 +12,13 @@ public class ElementalFire : Elemental
 		}
 		return true;
 	}
+
+	public override Element ElementAfterConsumed(Element consumer) {
+		if (consumer == Element.ICE) {
+			return Element.NONE;
+		}
+		return element;
+	}
 }
 
 

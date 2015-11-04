@@ -2,7 +2,7 @@ using System;
 public class Timer
 {
 	private bool condition = false;
-	public float elapsedTime, timer;
+	public float elapsedTime, timer, delta = 0.1f;
 	private Listener listener;
 
 	public Timer (Listener listener, float timer)
@@ -28,5 +28,12 @@ public class Timer
 
 	public void Start() {
 		condition = true;
+	}
+
+	public void Abort() {
+		if (elapsedTime + delta > timer) {
+			listener.Notify(this);
+		}
+		Reset ();
 	}
 }

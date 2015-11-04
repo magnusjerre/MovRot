@@ -5,7 +5,7 @@ using System;
 public class Tile : MonoBehaviour, Listener {
 
 	public Loc2D GridLoc;
-	private Timer timer;
+	public Timer timer;
 	
 	public bool IsStatic = false;
 	
@@ -33,10 +33,13 @@ public class Tile : MonoBehaviour, Listener {
 	private GridManager gridManager;
 	public GridManager GridManager { get { return gridManager; } }
 
+	private ElementalManager elementalManager;
+
 	// Use this for initialization
 	void Start () {
 		gridManager = GetComponentInParent<GridManager> ();
 		elemental = GetComponentInChildren<Elemental> ();
+		elementalManager = GameObject.FindGameObjectWithTag ("ElementalManager").GetComponent<ElementalManager>();
 		timer = new Timer (this, 1f);
 	}
 	
@@ -46,13 +49,15 @@ public class Tile : MonoBehaviour, Listener {
 			if (IsSurrounded = IsEncircled()) {
 				timer.Update (Time.deltaTime);
 			} else {
-				timer.Reset();
+				timer.Abort();
+				Debug.Log ("Resetting timer for : " + GridLoc);
 			}
 		}
 	}
 
 	public void Surround(Element e) {
 		IsSurrounded = true;
+		elementToBe = e;
 		timer.Start ();
 	}
 
@@ -82,6 +87,18 @@ public class Tile : MonoBehaviour, Listener {
 	{
 		Debug.Log ("Notified: " + GridLoc);  
 		((Timer)timer).Reset ();
+		if (elemental.IsSurroundedByEqualElements (gridManager)) {
+			((Timer)timer).Start ();
+			elementToBe = elemental.ElementAfterConsumed(elemental.GetSurroundingElementKind(gridManager));
+		}
+		GameObject newElemental = elementalManager.GetElemental (elementToBe);
+		newElemental.transform.SetParent (transform);
+		newElemental.transform.localPosition = Vector3.zero;
+		elemental.transform.parent = null;
+		Destroy (elemental.gameObject);
+		elemental = newElemental.GetComponent<Elemental> ();
+		Debug.Log ("ElementalToBe: " + elementToBe);
+		Debug.Log ("elemental: " + elemental + ", element: " + elemental.Element);
 	}
 	#endregion
 }
