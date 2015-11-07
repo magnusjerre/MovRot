@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 public struct Loc2D
 {
@@ -21,6 +22,11 @@ public struct Loc2D
 
 	public Loc2D WithX(int dx) {
 		return new Loc2D (this.x + dx, y);
+	}
+
+	public static Vector3 Diff (Loc2D target, Loc2D start)
+	{
+		return new Vector3(target.x - start.x, 0, target.y - start.y);
 	}
 }
 

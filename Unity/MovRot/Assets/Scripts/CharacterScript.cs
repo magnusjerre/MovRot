@@ -8,6 +8,7 @@ public class CharacterScript : MonoBehaviour {
 	public Animator anim;
 
 	private Loc2D gridLoc;
+	public Loc2D GridLoc { get { return gridLoc; } set {gridLoc = value; } }
 	private float currentSpeed;
 	private bool isMoving = false;
 	private float timer = 0f;
@@ -19,7 +20,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gridLoc = new Loc2D (2, 1);
+		gridLoc = gridManager.PosToGrid (transform.localPosition);
 		animTime = 1f / moveSpeed;
 		gameController = GameObject.FindObjectOfType<GameControllerScript> ();
 	}
@@ -27,6 +28,17 @@ public class CharacterScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		float moveVertical = Input.GetAxis ("Vertical");
+		float moveHorizontal = Input.GetAxis ("Horizontal");
+		if (moveVertical != 0) {
+			int dy = moveVertical > 0 ? 1 : -1;
+			Debug.Log("(int)moveVertical: " + (moveVertical));
+			GetComponent<MoveScript> ().JumpTo (GridLoc.WithY ((int)dy * 2), gridManager);
+		} else if (moveHorizontal != 0) {
+			int dx = moveHorizontal > 0 ? 1 : -1;
+			GetComponent<MoveScript> ().JumpTo (GridLoc.WithX ((int)dx * 2), gridManager);
+		}
+		/*
 		if (isMoving) {
 			timer += Time.deltaTime;
 			transform.position += moveDir * moveSpeed * Time.deltaTime;
@@ -73,6 +85,6 @@ public class CharacterScript : MonoBehaviour {
 				gridManager.RotateAbout(gridLoc, Direction.RIGHT);
 			}
 		}
-	
+	*/
 	}
 }
