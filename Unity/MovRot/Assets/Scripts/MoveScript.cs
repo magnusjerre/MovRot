@@ -11,8 +11,8 @@ public class MoveScript : MonoBehaviour {
 	
 	public bool moving = false;
 	public float speed = 10f;
-
-	private CharacterScript character;
+	
+	private GridElement gridElement;
 
 	private float diff;
 	private float height = 4.9f;
@@ -26,7 +26,7 @@ public class MoveScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		character = GetComponent<CharacterScript> ();
+		gridElement = GetComponent<GridElement> ();
 		moveTime = 1f / speed;
 		dy = height / speed;
 	}
@@ -38,7 +38,8 @@ public class MoveScript : MonoBehaviour {
 
 			if (timer > moveTime) {	//Finsihed
 				transform.localPosition = targetVector;
-				character.GridLoc(target);
+				gridElement.GridLoc(target);
+				transform.parent = gridElement.Grid().GetTile(target).transform;
 				moving = false;
 				jumping = false;
 				timer = 0f;
@@ -61,27 +62,29 @@ public class MoveScript : MonoBehaviour {
 		}
 	}
 
-	public void MoveTo(Loc2D t, GridManager gridManager) {
+	public void MoveTo(Loc2D t) {
 		if (moving)
 			return;
 
 		moving = true;
 
 		target = t;
-		targetVector = gridManager.GridToPos (target);
+		targetVector = gridElement.Grid().GridToPos (target);
 
-		start = GetComponent<GridElement> ().GridLoc();
+		start = gridElement.GridLoc();
 
 		direction = Loc2D.Diff (target, start);
+
+		transform.parent = gridElement.Grid().transform;
 	}
 
-	public void JumpTo(Loc2D t, GridManager gridManager) {
+	public void JumpTo(Loc2D t) {
 		if (jumping)
 			return;
 
 		jumping = true;
 		
-		GetComponent<MoveScript> ().MoveTo (t, gridManager);
+		MoveTo (t);
 		//b = -2ax //dy/dx of y = ax² + bx + c, 0 = 2ax + b -> b = -2ax, removing 2 below because the velocity should be 0 halfway
 		b = - a * moveTime;
 

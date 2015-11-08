@@ -13,7 +13,7 @@ public class CharacterScript : MonoBehaviour, GridElement {
 
 	// Use this for initialization
 	void Start () {
-		gridLoc = gridManager.PosToGrid (transform.localPosition);
+		gridLoc = gridManager.PosToGrid (transform.parent.localPosition);
 		gameController = GameObject.FindObjectOfType<GameControllerScript> ();
 		moveScript = GetComponent<MoveScript> ();
 	}
@@ -38,20 +38,20 @@ public class CharacterScript : MonoBehaviour, GridElement {
 			int dy = moveVertical > 0 ? 1 : -1;
 			Loc2D target = GridLoc().WithY (dy);
 			if (gridManager.GetTile (target) != null) {
-				moveScript.MoveTo (target, gridManager);
+				moveScript.MoveTo (target);
 				transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
 			} else if (gridManager.GetTile (target.WithY (dy)) != null) {
-				moveScript.JumpTo (target.WithY (dy), gridManager);
+				moveScript.JumpTo (target.WithY (dy));
 				transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
 			}
 		} else if (moveHorizontal != 0) {
 			int dx = moveHorizontal > 0 ? 1 : -1;
 			Loc2D target = GridLoc().WithX (dx);
 			if (gridManager.GetTile (target) != null) {
-				moveScript.MoveTo (target, gridManager);
+				moveScript.MoveTo (target);
 				transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
 			} else if (gridManager.GetTile (target.WithX (dx))) {
-				moveScript.JumpTo (target.WithX (dx), gridManager);
+				moveScript.JumpTo (target.WithX (dx));
 				transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
 			}
 		} else if (!gameController.IsGameOver) {
@@ -73,6 +73,11 @@ public class CharacterScript : MonoBehaviour, GridElement {
 	public Loc2D GridLoc ()
 	{
 		return gridLoc;
+	}
+
+	public GridManager Grid ()
+	{
+		return gridManager;
 	}
 
 	#endregion
