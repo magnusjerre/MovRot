@@ -115,7 +115,12 @@ public class GridManager : MonoBehaviour {
 			for (int i = 0; i < rotatingTiles.Length; i++) {	//Must run in separate for loop, otherwise all rotated tiles won't be checked for consume
 				if (rotatingTiles[i] != null) {
 					Tile tile = rotatingTiles[i];
-					tile.elemental.ConsumesAnyAdjacentElementals(this);
+					Tile[] adjacentTiles = GetAdjacentTiles(tile.GridLoc);
+					foreach (Tile tempTile in adjacentTiles) {
+						if (tempTile != null) {
+							tempTile.elemental.ConsumedByAdjacent(this);
+						}
+					}
 					tile.elemental.ConsumedByAdjacent(this);
 				}
 			}

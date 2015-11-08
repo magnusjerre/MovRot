@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour, Listener {
 				timer.Update (Time.deltaTime);
 			} else {
 				timer.Abort();
-				Debug.Log ("Resetting timer for : " + GridLoc);
+				Debug.Log ("Timer aborted for tile " + this);
 			}
 		}
 	}
@@ -85,9 +85,10 @@ public class Tile : MonoBehaviour, Listener {
 	#region Listener implementation
 	public void Notify (object timer)
 	{
-		Debug.Log ("Notified: " + GridLoc);  
+		Debug.Log ("Notified " + GridLoc + " of timer finished. Going to reset timer and change elemental to " + elementToBe);  
 		((Timer)timer).Reset ();
 		if (elemental.IsSurroundedByEqualElements (gridManager)) {
+			Debug.Log ("Tile still surrounded by other tiles of same element. Starting the timer a new");
 			((Timer)timer).Start ();
 			elementToBe = elemental.ElementAfterConsumed(elemental.GetSurroundingElementKind(gridManager));
 		}
@@ -97,8 +98,6 @@ public class Tile : MonoBehaviour, Listener {
 		elemental.transform.parent = null;
 		Destroy (elemental.gameObject);
 		elemental = newElemental.GetComponent<Elemental> ();
-		Debug.Log ("ElementalToBe: " + elementToBe);
-		Debug.Log ("elemental: " + elemental + ", element: " + elemental.Element);
 	}
 	#endregion
 }

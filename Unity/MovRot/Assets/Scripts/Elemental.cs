@@ -15,32 +15,10 @@ public abstract class Elemental : MonoBehaviour {
 
 	public virtual void ConsumedByAdjacent(GridManager gridManager) {
 		if (IsSurroundedByEqualElements (gridManager)) {
-			Element elementToBe = GetSurroundingElementKind(gridManager);
+			Element elementToBe = ElementAfterConsumed(GetSurroundingElementKind(gridManager));
 			tile.Surround(elementToBe);
-			Debug.Log("woho, " + tile + ", will be changed to " + ElementAfterConsumed(element));
+			Debug.Log("tile; " + tile + ", will be changed to " + elementToBe);
 		}
-	}
-
-	public virtual bool ConsumesAnyAdjacentElementals(GridManager gridManager) {
-		Tile[] adjacentTiles = new Tile[4];
-		Tile[] consumedTiles = new Tile[4];
-		int i = 0;
-		bool consumedAnything = false;
-		adjacentTiles = gridManager.GetAdjacentTiles (tile.GridLoc);
-		foreach (Tile t in adjacentTiles) {
-			if (t != null) {
-				if (Consumes(this, t.elemental)) {
-					consumedTiles[i] = t;
-					t.Surround(t.elemental.ElementAfterConsumed(element));
-					Debug.Log("tile: " + t + ", will be changed to: " + t.elemental.ElementAfterConsumed(element));
-					consumedAnything = true;
-				}
-			} else {
-				consumedTiles[i] = null;
-			}
-			i++;
-		}
-		return consumedAnything;
 	}
 
 	public virtual bool IsSurroundedByEqualElements(GridManager gridManager) {

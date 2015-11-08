@@ -7,10 +7,6 @@ public class ElementalNone : Elemental
 		tile = GetComponentInParent<Tile> ();
 		element = Element.NONE;
 	}
-
-	public override bool ConsumesAnyAdjacentElementals(GridManager gridManager) {
-		return false;
-	}
 	
 	protected override bool IsConsumabledBy(Elemental elemental) {
 		if (elemental.Element == Element.NONE) {
