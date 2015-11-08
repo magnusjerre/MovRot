@@ -1,20 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterScript : MonoBehaviour {
-
-	public float moveSpeed = 1f;
+public class CharacterScript : MonoBehaviour, GridElement {
+	
 	public GridManager gridManager;
 	public Animator anim;
 
 	private Loc2D gridLoc;
-	public Loc2D GridLoc { get { return gridLoc; } set {gridLoc = value; } }
-	private float currentSpeed;
-	private bool isMoving = false;
-	private float timer = 0f;
-	private Vector3 moveDir = Vector3.zero;
-	private Loc2D gridTarget;
-	private float animTime;
 
 	private GameControllerScript gameController;
 	private MoveScript moveScript;
@@ -22,7 +14,6 @@ public class CharacterScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gridLoc = gridManager.PosToGrid (transform.localPosition);
-		animTime = 1f / moveSpeed;
 		gameController = GameObject.FindObjectOfType<GameControllerScript> ();
 		moveScript = GetComponent<MoveScript> ();
 	}
@@ -45,7 +36,7 @@ public class CharacterScript : MonoBehaviour {
 			//Do nothing
 		} else if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;
-			Loc2D target = GridLoc.WithY (dy);
+			Loc2D target = GridLoc().WithY (dy);
 			if (gridManager.GetTile (target) != null) {
 				moveScript.MoveTo (target, gridManager);
 				transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
@@ -55,7 +46,7 @@ public class CharacterScript : MonoBehaviour {
 			}
 		} else if (moveHorizontal != 0) {
 			int dx = moveHorizontal > 0 ? 1 : -1;
-			Loc2D target = GridLoc.WithX (dx);
+			Loc2D target = GridLoc().WithX (dx);
 			if (gridManager.GetTile (target) != null) {
 				moveScript.MoveTo (target, gridManager);
 				transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
@@ -71,4 +62,18 @@ public class CharacterScript : MonoBehaviour {
 			}
 		}
 	}
+
+	#region GridElement implementation
+
+	public void GridLoc (Loc2D loc)
+	{
+		gridLoc = loc;
+	}
+
+	public Loc2D GridLoc ()
+	{
+		return gridLoc;
+	}
+
+	#endregion
 }

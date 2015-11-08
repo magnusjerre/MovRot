@@ -29,7 +29,6 @@ public class MoveScript : MonoBehaviour {
 		character = GetComponent<CharacterScript> ();
 		moveTime = 1f / speed;
 		dy = height / speed;
-		//dy = 4.9f;
 	}
 	
 	// Update is called once per frame
@@ -39,7 +38,7 @@ public class MoveScript : MonoBehaviour {
 
 			if (timer > moveTime) {	//Finsihed
 				transform.localPosition = targetVector;
-				character.GridLoc = target;
+				character.GridLoc(target);
 				moving = false;
 				jumping = false;
 				timer = 0f;
@@ -70,9 +69,8 @@ public class MoveScript : MonoBehaviour {
 
 		target = t;
 		targetVector = gridManager.GridToPos (target);
-		Debug.Log ("targetVecyor: " + targetVector);
 
-		start = GetComponent<CharacterScript> ().GridLoc;
+		start = GetComponent<GridElement> ().GridLoc();
 
 		direction = Loc2D.Diff (target, start);
 	}
@@ -84,8 +82,7 @@ public class MoveScript : MonoBehaviour {
 		jumping = true;
 		
 		GetComponent<MoveScript> ().MoveTo (t, gridManager);
-		//b = -2ax
-		//b = - a * (gridManager.GridToPos (t) - gridManager.GridToPos (character.GridLoc)).magnitude;
+		//b = -2ax //dy/dx of y = ax² + bx + c, 0 = 2ax + b -> b = -2ax, removing 2 below because the velocity should be 0 halfway
 		b = - a * moveTime;
 
 	}
