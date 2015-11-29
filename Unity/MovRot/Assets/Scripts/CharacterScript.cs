@@ -32,7 +32,7 @@ public class CharacterScript : MonoBehaviour, GridElement {
 			anim.SetFloat ("speed", 0f);
 		}
 
-		if (gridManager.IsRotatingAnim ()) {
+		if (gridManager.IsRotatingAnim () || moveScript.moving || moveScript.jumping) {
 			//Do nothing
 		} else if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;
