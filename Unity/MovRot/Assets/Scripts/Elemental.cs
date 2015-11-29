@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Elemental : MonoBehaviour, ITraversable {
+public abstract class Elemental : MonoBehaviour/*, ITraversable*/ {
 	
 	protected Element element;
 	public Element Element { get { return element; } }
@@ -65,10 +65,4 @@ public abstract class Elemental : MonoBehaviour, ITraversable {
 	}
 
 	public abstract Element ElementAfterConsumed(Element consumer);
-
-	#region ITraversable implementation
-	public virtual bool IsTraversable () {
-		return true;
-	}
-	#endregion
 }

@@ -40,7 +40,7 @@ public class CharacterScript : MonoBehaviour, GridElement {
 			transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
 			if (gridManager.GetTile (target) != null && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.MoveTo (target);
-			} else if (gridManager.GetTile (target.WithY (dy)) != null && gridManager.GetTile(target).IsTraversable()) {
+			} else if (gridManager.GetTile (target.WithY (dy)) != null && gridManager.GetTile(target.WithY(dy)).IsTraversable()) {
 				moveScript.JumpTo (target.WithY (dy));
 			}
 		} else if (moveHorizontal != 0) {
@@ -49,7 +49,7 @@ public class CharacterScript : MonoBehaviour, GridElement {
 			transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
 			if (gridManager.GetTile (target) != null && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.MoveTo (target);
-			} else if (gridManager.GetTile (target.WithX (dx)) && gridManager.GetTile(target).IsTraversable()) {
+			} else if (gridManager.GetTile (target.WithX (dx)) && gridManager.GetTile(target.WithX(dx)).IsTraversable()) {
 				moveScript.JumpTo (target.WithX (dx));
 			}
 		} else if (!gameController.IsGameOver) {

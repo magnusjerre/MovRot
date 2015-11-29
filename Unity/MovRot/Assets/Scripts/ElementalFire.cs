@@ -19,12 +19,6 @@ public class ElementalFire : Elemental
 		}
 		return element;
 	}
-
-	public override bool IsTraversable ()
-	{
-		return false;
-	}
-
 }
 
 
