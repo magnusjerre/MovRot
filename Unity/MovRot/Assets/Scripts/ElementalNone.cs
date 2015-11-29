@@ -18,4 +18,13 @@ public class ElementalNone : Elemental
 	public override Element ElementAfterConsumed(Element consumer) {
 		return consumer;
 	}
+
+	#region implemented abstract members of Elemental
+
+	public override bool IsTraversable ()
+	{
+		return true;
+	}
+
+	#endregion
 }

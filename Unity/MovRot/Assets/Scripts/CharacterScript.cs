@@ -37,22 +37,20 @@ public class CharacterScript : MonoBehaviour, GridElement {
 		} else if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;
 			Loc2D target = GridLoc().WithY (dy);
-			if (gridManager.GetTile (target) != null) {
+			transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
+			if (gridManager.GetTile (target) != null && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.MoveTo (target);
-				transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
-			} else if (gridManager.GetTile (target.WithY (dy)) != null) {
+			} else if (gridManager.GetTile (target.WithY (dy)) != null && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.JumpTo (target.WithY (dy));
-				transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
 			}
 		} else if (moveHorizontal != 0) {
 			int dx = moveHorizontal > 0 ? 1 : -1;
 			Loc2D target = GridLoc().WithX (dx);
-			if (gridManager.GetTile (target) != null) {
+			transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
+			if (gridManager.GetTile (target) != null && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.MoveTo (target);
-				transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
-			} else if (gridManager.GetTile (target.WithX (dx))) {
+			} else if (gridManager.GetTile (target.WithX (dx)) && gridManager.GetTile(target).IsTraversable()) {
 				moveScript.JumpTo (target.WithX (dx));
-				transform.LookAt (new Vector3 (transform.position.x + dx, transform.position.y, transform.position.z));
 			}
 		} else if (!gameController.IsGameOver) {
 			if (rotateLeft) {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Tile : MonoBehaviour, Listener {
+public class Tile : MonoBehaviour, Listener, ITraversable {
 
 	public Loc2D GridLoc;
 	public Timer timer;
@@ -99,5 +99,20 @@ public class Tile : MonoBehaviour, Listener {
 		Destroy (elemental.gameObject);
 		elemental = newElemental.GetComponent<Elemental> ();
 	}
+	#endregion
+
+	#region ITraversable implementation
+
+	public bool IsTraversable ()
+	{
+		ITraversable[] traversables = GetComponentsInChildren<ITraversable> ();
+		foreach (ITraversable traversable in traversables) {
+			if (traversable != this && !traversable.IsTraversable()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	#endregion
 }
