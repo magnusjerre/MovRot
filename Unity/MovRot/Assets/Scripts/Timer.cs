@@ -1,20 +1,18 @@
+using UnityEngine;
 using System;
-public class Timer
+
+public class Timer : MonoBehaviour
 {
 	private bool condition = false;
-	public float elapsedTime, timer, delta = 0.1f;
-	private Listener listener;
+	public float elapsedTime = 0f, timer = 1f, delta = 0.1f;
+	public Listener listener;
 
-	public Timer (Listener listener, float timer)
-	{
-		this.listener = listener;
-		this.timer = timer;
-		Reset ();
+	void Start() {
 	}
 
-	public void Update(float dt) {
+	void Update() {
 		if (condition) {
-			elapsedTime += dt;
+			elapsedTime += Time.deltaTime;
 			if (elapsedTime > timer) {
 				listener.Notify(this);
 			}
@@ -26,7 +24,7 @@ public class Timer
 		condition = false;
 	}
 
-	public void Start() {
+	public void StartTimer() {
 		condition = true;
 	}
 

@@ -2,8 +2,8 @@ using System;
 
 public class ElementalIce : Elemental
 {
-	void Start() {
-		tile = GetComponentInParent<Tile> ();
+	protected new void Awake() {
+		base.Awake ();
 		element = Element.ICE;
 	}
 	

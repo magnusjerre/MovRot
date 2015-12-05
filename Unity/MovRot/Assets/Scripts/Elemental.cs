@@ -1,24 +1,48 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Elemental : MonoBehaviour/*, ITraversable*/ {
+public abstract class Elemental : MonoBehaviour, Listener {
 	
 	protected Element element;
 	public Element Element { get { return element; } }
 
 	protected Element[] consumedBy, consumes;
-	protected Tile tile;
+	public Tile tile;
 
-	void Start() {
+	public Timer timer;
+	public Element elementToBe;
+	private ElementalManager elementalManager;
+
+	protected void Awake() {
+		elementalManager = GameObject.FindGameObjectWithTag ("ElementalManager").GetComponent<ElementalManager>();
 		tile = GetComponentInParent<Tile> ();
+	}
+
+	protected void Start() {
+		timer.listener = this;
+		ConsumedByAdjacent (tile.GridManager);
+	}
+
+	void Update() {
+		if (tile.IsSurrounded) {
+			if (!(tile.IsSurrounded = tile.IsEncircled())) {
+				timer.Abort();
+				Debug.Log ("Timer aborted for tile " + tile);
+			}
+		}
 	}
 
 	public virtual void ConsumedByAdjacent(GridManager gridManager) {
 		if (IsSurroundedByEqualElements (gridManager)) {
 			Element elementToBe = ElementAfterConsumed(GetSurroundingElementKind(gridManager));
-			tile.Surround(elementToBe);
+			this.elementToBe = elementToBe;
+			timer.StartTimer();
 			Debug.Log("tile; " + tile + ", will be changed to " + elementToBe);
 		}
+	}
+
+	public virtual bool IsSurroundedByEqualElements() {
+		return IsSurroundedByEqualElements (tile.GridManager);
 	}
 
 	public virtual bool IsSurroundedByEqualElements(GridManager gridManager) {
@@ -39,6 +63,10 @@ public abstract class Elemental : MonoBehaviour/*, ITraversable*/ {
 		}
 
 		return true;
+	}
+
+	public virtual Element GetSurroundingElementKind() {
+		return GetSurroundingElementKind (tile.GridManager);
 	}
 
 	public virtual Element GetSurroundingElementKind(GridManager gridManager) {
@@ -65,4 +93,13 @@ public abstract class Elemental : MonoBehaviour/*, ITraversable*/ {
 	}
 
 	public abstract Element ElementAfterConsumed(Element consumer);
+
+	#region Listener implementation
+
+	public void Notify (object o)
+	{
+		elementalManager.ReplaceElemental (tile, elementToBe);
+	}
+
+	#endregion
 }

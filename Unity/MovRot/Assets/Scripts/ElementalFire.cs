@@ -1,10 +1,15 @@
 using System;
 public class ElementalFire : Elemental
 {
-	void Start() {
-		tile = GetComponentInParent<Tile> ();
+	protected new void Awake() {
+		base.Awake ();
 		element = Element.FIRE;
-	}
+	}/*
+	protected new void Start() {
+		base.Start ();
+		//tile = GetComponentInParent<Tile> ();
+		element = Element.FIRE;
+	}*/
 
 	protected override bool IsConsumabledBy(Elemental elemental) {
 		if (elemental.Element == Element.NONE || elemental.Element == element) {

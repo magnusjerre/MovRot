@@ -2,17 +2,18 @@
 using System.Collections;
 using System;
 
-public class Tile : MonoBehaviour, Listener, ITraversable {
+public class Tile : MonoBehaviour, /*Listener,*/ ITraversable {
+
+	private GridManager gridManager;
+	public GridManager GridManager { get { return gridManager; } }
 
 	public Loc2D GridLoc;
-	public Timer timer;
-	
-	public bool IsStatic = false;
-	
-	public Element elementToBe;
 	public Elemental elemental;
+	public bool IsStatic = false;
+
 	public bool IsSurrounded { get; set; }
 
+	//Eget hp script kanskje?
 	public int HP = 5;
 	public ActionType[] actionTypes = new ActionType[0];
 	public void PerformAction(ActionType type) {
@@ -30,38 +31,22 @@ public class Tile : MonoBehaviour, Listener, ITraversable {
 		gameObject.SetActive (false);
 	}
 
-	private GridManager gridManager;
-	public GridManager GridManager { get { return gridManager; } }
 
-	private ElementalManager elementalManager;
+	//private ElementalManager elementalManager;
+	void Awake() {
+		gridManager = GetComponentInParent<GridManager> ();
+		elemental = GetComponentInChildren<Elemental> ();
+	}
 
 	// Use this for initialization
 	void Start () {
-		gridManager = GetComponentInParent<GridManager> ();
-		elemental = GetComponentInChildren<Elemental> ();
-		elementalManager = GameObject.FindGameObjectWithTag ("ElementalManager").GetComponent<ElementalManager>();
-		timer = new Timer (this, 1f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (IsSurrounded) {
-			if (IsSurrounded = IsEncircled()) {
-				timer.Update (Time.deltaTime);
-			} else {
-				timer.Abort();
-				Debug.Log ("Timer aborted for tile " + this);
-			}
-		}
 	}
 
-	public void Surround(Element e) {
-		IsSurrounded = true;
-		elementToBe = e;
-		timer.Start ();
-	}
-
-	private bool IsEncircled() {
+	public bool IsEncircled() {
 		bool result = false;
 		foreach (Element e in Enum.GetValues(typeof(Element))) {
 			if (e != elemental.Element && e != Element.NONE) {
@@ -80,26 +65,6 @@ public class Tile : MonoBehaviour, Listener, ITraversable {
 	{
 		return "gridX: " + GridLoc.x + ", gridY: " + GridLoc.y;
 	}
-
-
-	#region Listener implementation
-	public void Notify (object timer)
-	{
-		Debug.Log ("Notified " + GridLoc + " of timer finished. Going to reset timer and change elemental to " + elementToBe);  
-		((Timer)timer).Reset ();
-		if (elemental.IsSurroundedByEqualElements (gridManager)) {
-			Debug.Log ("Tile still surrounded by other tiles of same element. Starting the timer a new");
-			((Timer)timer).Start ();
-			elementToBe = elemental.ElementAfterConsumed(elemental.GetSurroundingElementKind(gridManager));
-		}
-		GameObject newElemental = elementalManager.GetElemental (elementToBe);
-		newElemental.transform.SetParent (transform);
-		newElemental.transform.localPosition = Vector3.zero;
-		elemental.transform.parent = null;
-		Destroy (elemental.gameObject);
-		elemental = newElemental.GetComponent<Elemental> ();
-	}
-	#endregion
 
 	#region ITraversable implementation
 

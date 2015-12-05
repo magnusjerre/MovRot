@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ElementalNone : Elemental
 {
-	void Start() {
-		tile = GetComponentInParent<Tile> ();
+	protected new void Awake() {
+		base.Awake ();
 		element = Element.NONE;
 	}
 	

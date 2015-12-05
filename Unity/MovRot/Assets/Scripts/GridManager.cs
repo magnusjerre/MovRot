@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour {
 	private bool isMovingDown;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		grid = new Tile[width, height];
 		Tile[] childTiles = GetComponentsInChildren<Tile> ();
 		foreach (Tile tile in childTiles) {
@@ -139,7 +139,7 @@ public class GridManager : MonoBehaviour {
 				if (tile != null) {
 					tile.transform.parent = rotateTransf;
 					grid[tile.GridLoc.x, tile.GridLoc.y] = null;
-					tile.timer.Reset();
+					tile.elemental.timer.Reset();
 				}
 			}
 			isMovingUp = true;
