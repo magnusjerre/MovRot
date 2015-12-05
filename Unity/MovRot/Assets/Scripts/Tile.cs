@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Tile : MonoBehaviour, /*Listener,*/ ITraversable {
+public class Tile : MonoBehaviour, ITraversable {
 
 	private GridManager gridManager;
 	public GridManager GridManager { get { return gridManager; } }
@@ -12,8 +12,7 @@ public class Tile : MonoBehaviour, /*Listener,*/ ITraversable {
 	public bool IsStatic = false;
 
 	public bool IsSurrounded { get; set; }
-
-	//Eget hp script kanskje?
+	
 	public int HP = 5;
 	public ActionType[] actionTypes = new ActionType[0];
 	public void PerformAction(ActionType type) {
@@ -31,8 +30,6 @@ public class Tile : MonoBehaviour, /*Listener,*/ ITraversable {
 		gameObject.SetActive (false);
 	}
 
-
-	//private ElementalManager elementalManager;
 	void Awake() {
 		gridManager = GetComponentInParent<GridManager> ();
 		elemental = GetComponentInChildren<Elemental> ();
@@ -45,21 +42,6 @@ public class Tile : MonoBehaviour, /*Listener,*/ ITraversable {
 	// Update is called once per frame
 	void Update () {
 	}
-
-	public bool IsEncircled() {
-		bool result = false;
-		foreach (Element e in Enum.GetValues(typeof(Element))) {
-			if (e != elemental.Element && e != Element.NONE) {
-				if (gridManager.Encircled(GridLoc, e)) {
-					result = true;
-					break;
-				}
-			}
-		}
-		return result;
-	}
-
-
 
 	public override string ToString ()
 	{
