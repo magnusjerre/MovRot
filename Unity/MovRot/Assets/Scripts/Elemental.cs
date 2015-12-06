@@ -26,7 +26,7 @@ public abstract class Elemental : MonoBehaviour, Listener {
 
 	void Update() {
 		if (tile.IsSurrounded) {
-			if (!(tile.IsSurrounded = IsEncircled())) {
+			if (!(tile.IsSurrounded = IsSurroundedByEqualElements())) {
 				timer.Abort();
 				Debug.Log ("Timer aborted for tile " + tile);
 			}
@@ -91,19 +91,6 @@ public abstract class Elemental : MonoBehaviour, Listener {
 		}
 
 		return false;
-	}
-
-	public bool IsEncircled() {
-		bool result = false;
-		foreach (Element e in Enum.GetValues(typeof(Element))) {
-			if (e != element && e != Element.NONE) {
-				if (tile.GridManager.Encircled(tile.GridLoc, e)) {
-					result = true;
-					break;
-				}
-			}
-		}
-		return result;
 	}
 
 	public abstract Element ElementAfterConsumed(Element consumer);

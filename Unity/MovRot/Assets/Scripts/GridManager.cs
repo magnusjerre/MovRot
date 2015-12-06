@@ -133,7 +133,7 @@ public class GridManager : MonoBehaviour {
 		if (CanRotate (loc)) {
 			rotateDir = dir;
 			rotateTransf.localPosition = new Vector3(loc.x * tileSize, 0, loc.y * tileSize);
-			rotatingTiles = GetSurroundingTiles(loc.x, loc.y);
+			rotatingTiles = GetAdjacentTiles(loc);
 			rotateTargets = GetTargetRotations(rotatingTiles, dir);
 			foreach (Tile tile in rotatingTiles) {
 				if (tile != null) {
@@ -177,47 +177,19 @@ public class GridManager : MonoBehaviour {
 		if (loc.y < 1 || loc.y > height - 2)
 			return false;
 		//The following two checks for static tiles
-		if (IsTile(new Loc2D(loc.x, loc.y + 1)) && grid [loc.x, loc.y + 1].IsStatic)
+		Loc2D up = loc.WithY (1);
+		Loc2D right = loc.WithX (1);
+		Loc2D down = loc.WithY (-1);
+		Loc2D left = loc.WithX (-1);
+		if (IsTile(up) && grid[up.x, up.y].IsStatic)
 			return false;
-		if (IsTile(new Loc2D(loc.x + 1, loc.y)) && grid [loc.x + 1, loc.y].IsStatic)
+		if (IsTile(right) && grid[right.x, right.y].IsStatic)
 			return false;
-		if (IsTile(new Loc2D(loc.x, loc.y - 1)) && grid [loc.x, loc.y - 1].IsStatic)
+		if (IsTile(down) && grid[down.x, down.y].IsStatic)
 			return false;
-		if (IsTile(new Loc2D(loc.x - 1, loc.y)) && grid [loc.x - 1, loc.y].IsStatic)
+		if (IsTile(left) && grid[left.x, left.y].IsStatic)
 			return false;
 		return true;
-	}
-
-	Tile[] GetSurroundingTiles(int x, int y) {
-		Tile[] tiles = new Tile[4];
-
-		Loc2D left = new Loc2D(x - 1, y);
-		Loc2D right = new Loc2D(x + 1, y);
-		Loc2D up = new Loc2D (x, y + 1);
-		Loc2D down = new Loc2D(x, y -1);
-
-		//Clockwise, starting from 12 o'clock
-		Tile tile = null;
-		if (IsInsideGrid (up))
-			tile = grid [up.x, up.y];
-		tiles [0] = tile;
-
-		tile = null;
-		if (IsInsideGrid (right))
-			tile = grid [right.x, right.y];
-		tiles [1] = tile;
-
-		tile = null;
-		if (IsInsideGrid (down))
-			tile = grid [down.x, down.y];
-		tiles [2] = tile;
-
-		tile = null;
-		if (IsInsideGrid (left))
-			tile = grid[left.x, left.y];
-		tiles[3] = tile;
-
-		return tiles;
 	}
 
 	bool IsInsideGrid(Loc2D loc) {
@@ -256,64 +228,6 @@ public class GridManager : MonoBehaviour {
 			return grid [loc.x, loc.y];
 		else //Handles out of bounds
 			return null;
-	}
-
-	public Tile[] Encircles (Tile tile, Element element)
-	{
-		Loc2D start = tile.GridLoc;
-		List<Tile> encircledTiles = new List<Tile> ();
-		if (TileEncircled (start.WithY (1), element)){
-			if (GetTile(start.WithY(1)).elemental.Element != element) {
-				encircledTiles.Add (GetTile (start.WithY(1)));
-			}
-		}
-		if (TileEncircled (start.WithY (-1), element)) {
-			if (GetTile(start.WithY(-1)).elemental.Element != element) {
-				encircledTiles.Add (GetTile (start.WithY(-1)));
-			}
-		}
-		if (TileEncircled (start.WithX (1), element)) {
-			if (GetTile(start.WithX(1)).elemental.Element != element) {
-				encircledTiles.Add (GetTile (start.WithX(1)));
-			}
-		}
-		if (TileEncircled (start.WithX (-1), element)) {
-			if (GetTile(start.WithX(-1)).elemental.Element != element) {
-				encircledTiles.Add (GetTile (start.WithX(-1)));
-			}
-		}
-		if (encircledTiles.Count > 0)
-			return encircledTiles.ToArray ();
-		return new Tile[0];
-	}
-
-	private bool TileEncircled(Loc2D loc, Element element) {
-		if (!IsTile (loc))
-			return false;
-		return Encircled (loc, element);
-	}
-
-	public bool Encircled (Loc2D loc, Element element) {
-
-		if (!IsTileElementType (loc.WithY (1), element))
-			return false;
-		if (!IsTileElementType (loc.WithX (1), element))
-			return false;
-		if (!IsTileElementType (loc.WithY (-1), element))
-			return false;
-		if (!IsTileElementType (loc.WithX (-1), element))
-			return false;
-
-		return true;
-	}
-
-	private bool IsTileElementType(Loc2D loc, Element element) {
-		if (!IsTile (loc))
-			return false;
-		if (GetTile (loc).elemental.Element != element)
-			return false;
-
-		return true;
 	}
 
 	public Tile[] GetAdjacentTiles(Loc2D loc) {
