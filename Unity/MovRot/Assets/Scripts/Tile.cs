@@ -11,8 +11,6 @@ public class Tile : MonoBehaviour, ITraversable {
 	public Elemental elemental;
 	public bool IsStatic = false;
 
-	public bool IsSurrounded { get; set; }
-	
 	public int HP = 5;
 	public ActionType[] actionTypes = new ActionType[0];
 	public void PerformAction(ActionType type) {

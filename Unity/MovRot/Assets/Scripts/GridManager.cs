@@ -118,10 +118,10 @@ public class GridManager : MonoBehaviour {
 					Tile[] adjacentTiles = GetAdjacentTiles(tile.GridLoc);
 					foreach (Tile tempTile in adjacentTiles) {
 						if (tempTile != null) {
-							tempTile.elemental.ConsumedByAdjacent(this);
+							tempTile.elemental.ConsumedByAdjacent();
 						}
 					}
-					tile.elemental.ConsumedByAdjacent(this);
+					tile.elemental.ConsumedByAdjacent();
 				}
 			}
 		}
