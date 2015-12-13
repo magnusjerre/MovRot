@@ -45,7 +45,7 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 				} else {
 					moveScript.MoveDirection(MoveDirection.DOWN, 1);
 				}
-			} else if (gridManager.GetTile (target.WithY (dy)) != null && gridManager.GetTile(target.WithY(dy)).IsTraversable()) {
+			} else if (gridManager.GetTile(target) == null && gridManager.GetTile (target.WithY (dy)) != null && gridManager.GetTile(target.WithY(dy)).IsTraversable()) {
 				if (dy == 1) {
 					moveScript.MoveDirection(MoveDirection.UP, 2); 
 				} else {
@@ -62,7 +62,7 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 				} else {
 					moveScript.MoveDirection(MoveDirection.LEFT, 1);
 				}
-			} else if (gridManager.GetTile (target.WithX (dx)) && gridManager.GetTile(target.WithX(dx)).IsTraversable()) {
+			} else if (gridManager.GetTile(target) == null && gridManager.GetTile (target.WithX (dx)) && gridManager.GetTile(target.WithX(dx)).IsTraversable()) {
 				if (dx == 1) {
 					moveScript.MoveDirection(MoveDirection.RIGHT, 2);
 				} else {
