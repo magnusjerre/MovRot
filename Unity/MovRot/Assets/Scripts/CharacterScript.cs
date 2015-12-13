@@ -99,6 +99,7 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 	{
 		transform.parent = gridManager.transform;
 		moveScript.Fall ();
+		gameController.IsGameOver = true;
 	}
 
 	#endregion
