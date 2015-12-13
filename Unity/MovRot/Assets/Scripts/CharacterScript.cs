@@ -18,24 +18,13 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 		moveScript = GetComponent<MoveScript> ();
 		moveScript.movementListener = this;
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-		float moveVertical = Input.GetAxis ("Vertical");
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		bool rotateLeft = Input.GetMouseButton(0);
-		bool rotateRight = Input.GetMouseButton(1);
-
-		if (moveScript.isMoving) {
-			anim.SetFloat ("speed", 1f);
-		} else {
-			anim.SetFloat ("speed", 0f);
+	public void Move(float moveVertical, float moveHorizontal) {
+		if (gridManager.IsRotatingAnim () || moveScript.isMoving || moveScript.isJumping || moveScript.isFalling) {
+			return;
 		}
 
-		if (gridManager.IsRotatingAnim () || moveScript.isMoving || moveScript.isJumping || moveScript.isFalling) {
-			//Do nothing
-		} else if (moveVertical != 0) {
+		if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;
 			Loc2D target = GridLoc().WithY (dy);
 			transform.LookAt (new Vector3 (transform.position.x, transform.position.y, transform.position.z + dy));
@@ -69,12 +58,24 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 					moveScript.MoveDirection(MoveDirection.LEFT, 2);
 				}
 			}
-		} else if (!gameController.IsGameOver) {
-			if (rotateLeft) {
-				gridManager.RotateAbout(gridLoc, Direction.LEFT);
-			} else if (rotateRight) {
-				gridManager.RotateAbout(gridLoc, Direction.RIGHT);
-			}
+		}
+
+		if (moveScript.isMoving) {
+			anim.SetFloat ("speed", 1f);
+		} else {
+			anim.SetFloat ("speed", 0f);
+		}
+	}
+
+	public void RotateClockwise(bool clockwise) {
+		if (gridManager.IsRotatingAnim () || moveScript.isMoving || moveScript.isJumping || moveScript.isFalling) {
+			return;
+		}
+
+		if (clockwise) {
+			gridManager.RotateAbout(gridLoc, Direction.RIGHT);
+		} else {
+			gridManager.RotateAbout(gridLoc, Direction.LEFT);
 		}
 	}
 
