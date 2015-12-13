@@ -211,6 +211,8 @@ public class GridManager : MonoBehaviour {
 	}
 
 	public Loc2D PosToGrid(Vector3 pos) {
+		int newX = (int)(pos.x / tileSize);
+		int newY = (int)(pos.z / tileSize);
 		return new Loc2D ((int)(pos.x / tileSize), (int)(pos.z / tileSize));
 	}
 

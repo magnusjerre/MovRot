@@ -8,6 +8,10 @@ public struct Loc2D
 		this.y = y;
 	}
 
+	public static Loc2D Zero() {
+		return new Loc2D (0, 0);
+	}
+
 	public static Loc2D Default() {
 		return new Loc2D (-1, -1);
 	}

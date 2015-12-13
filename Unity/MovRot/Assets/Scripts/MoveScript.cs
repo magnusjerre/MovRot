@@ -1,92 +1,122 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveScript : MonoBehaviour {
-
-	public Loc2D target;
-	private Vector3 targetVector;
-	public Loc2D start;
-
-	public Vector3 direction;
+public class MoveScript : MonoBehaviour, Listener
+{
 	
-	public bool moving = false;
-	public float speed = 10f;
+	Loc2D direction;
 	
-	private GridElement gridElement;
-
-	private float diff;
-	private float height = 4.9f;
-	private float dy;
+	public GridElement elementToMove;
+	Tile startTile;
+	
+	float moveSpeed = 2f, jumpSpeed = 3f;	//per second
+	
+	public bool isMoving = false;
+	public bool isJumping = false;
+	public bool isFalling = false;
+	public bool isFinished = false;
+	
+	private Timer timer;
+	float moveTime, jumpTime;
+	
+	//Jumping
 	private float a = -4.9f, b;
-
-	private float timer;
-	private float moveTime;
 	
-	public bool jumping = false;
-
+	public Listener movementListener;
+	
 	// Use this for initialization
-	void Start () {
-		gridElement = GetComponent<GridElement> ();
-		moveTime = 1f / speed;
-		dy = height / speed;
+	void Start ()
+	{
+		elementToMove = GetComponent<GridElement> ();
+		moveTime = 1f / moveSpeed;
+		jumpTime = 1f / jumpSpeed * 2f;	//will otherwise stop halfway
+		timer = GetComponent<Timer> ();
+		timer.listener = this;
+		timer.timer = 1f / moveSpeed;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (moving) {
-			timer += Time.deltaTime;
-
-			if (timer > moveTime) {	//Finsihed
-				transform.localPosition = targetVector;
-				gridElement.GridLoc(target);
-				transform.parent = gridElement.Grid().GetTile(target).transform;
-				moving = false;
-				jumping = false;
-				timer = 0f;
+	void Update ()
+	{
+		if (isMoving) {
+			float dDistance = moveSpeed * Time.deltaTime;
+			Vector3 pos = transform.localPosition;
+			transform.localPosition = new Vector3 (pos.x + direction.x * dDistance, pos.y, pos.z + direction.y * dDistance);
+		} else if (isJumping) {
+			float dDistance = jumpSpeed * Time.deltaTime;
+			float dt = timer.elapsedTime;
+			float y = a * dt * dt + b * dt;
+			Vector3 pos = transform.localPosition;
+			transform.localPosition = new Vector3 (pos.x + direction.x * dDistance, y * transform.localScale.y, pos.z + direction.y * dDistance);
+		} else if (isFalling) {
+			float dt = timer.elapsedTime;
+			float y = a * dt * dt;
+			Vector3 pos = transform.localPosition;
+			transform.localPosition = new Vector3 (pos.x, y * transform.localScale.y, pos.z);
+		}
+	}
+	
+	public void Fall() {
+		if (isFinished || isMoving || isJumping || isFalling)
+			return;
+		
+		isFalling = true;
+		timer.timer = 2f;
+		timer.StartTimer ();
+	}
+	
+	public void MoveDirection(MoveDirection moveDirection, int distance) {
+		if (isFinished || isMoving || isJumping || isFalling) 
+			return;
+		
+		startTile = elementToMove.Grid ().GetTile (elementToMove.GridLoc ());
+		this.direction = MoveDirectionUtils.Dir(moveDirection);
+		if (distance == 1) {
+			isMoving = true;
+			isJumping = false;
+			isFalling = false;
+			timer.timer = moveTime; 
+		} else if (distance == 2) {
+			isMoving = false;
+			isJumping = true;
+			isFalling = false;
+			b = -a * jumpTime; //b = -2ax //dy/dx of y = ax² + bx + c, 0 = 2ax + b -> b = -2ax, removing 2 because the velocity should be 0 halfway
+			timer.timer = jumpTime;
+		}
+		timer.StartTimer ();
+	}
+	
+	#region Listener implementation
+	
+	public void Notify (object o)
+	{
+		if (isFinished)
+			return;
+		
+		isMoving = false;
+		isJumping = false;
+		timer.Reset ();
+		
+		//Set final positions
+		Vector3 localRound = new Vector3 (Mathf.RoundToInt (transform.localPosition.x), transform.localPosition.y, Mathf.RoundToInt (transform.localPosition.z)); 
+		Loc2D endPos = elementToMove.Grid ().PosToGrid (localRound + transform.parent.localPosition);
+		Tile finalTile = elementToMove.Grid ().GetTile (endPos);
+		if (finalTile == null) {
+			if (isFalling) { //Is already falling
+				isFalling = false;
+				isFinished = true;
+				movementListener.Notify(this);
 			} else {
-				transform.localPosition += direction * speed * Time.deltaTime;
+				Fall();
 			}
-		}
-
-		if (jumping) {
-
-			if (timer > moveTime) {
-				transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
-				jumping = false;
-			} else {
-				float y = -dy*timer*timer + dy * timer;
-				y = a * timer * timer + b * timer;
-				transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
-			} 
-		
+		} else {
+			elementToMove.GridLoc (endPos);
+			transform.parent = finalTile.transform;
+			transform.localPosition = Vector3.zero;
+			movementListener.Notify(this);
 		}
 	}
-
-	public void MoveTo(Loc2D t) {
-		if (moving)
-			return;
-
-		moving = true;
-
-		target = t;
-		targetVector = gridElement.Grid().GridToPos (target);
-
-		start = gridElement.GridLoc();
-
-		direction = Loc2D.Diff (target, start);
-
-		transform.parent = gridElement.Grid().transform;
-	}
-
-	public void JumpTo(Loc2D t) {
-		if (jumping)
-			return;
-
-		jumping = true;
-		
-		MoveTo (t);
-		//b = -2ax //dy/dx of y = ax² + bx + c, 0 = 2ax + b -> b = -2ax, removing 2 below because the velocity should be 0 halfway
-		b = - a * moveTime;
-
-	}
+	
+	#endregion
 }
+
