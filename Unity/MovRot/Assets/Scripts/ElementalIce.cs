@@ -7,8 +7,8 @@ public class ElementalIce : Elemental
 		element = Element.ICE;
 	}
 	
-	protected override bool IsConsumabledBy(Elemental elemental) {
-		if (elemental.Element == Element.NONE || elemental.Element == element) {
+	protected override bool IsConsumableBy(Element otherElement) {
+		if (otherElement == Element.NONE || otherElement == element) {
 			return false;
 		}
 		return true;

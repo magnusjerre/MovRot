@@ -36,7 +36,7 @@ public abstract class Elemental : MonoBehaviour, Listener {
 	}
 
 	public virtual void ConsumedByAdjacent() {
-		if (IsSurroundedByEqualElements ()) {
+		if (IsSurroundedByEqualElements () && IsConsumableBy(tile.GridManager.GetTile (tile.GridLoc.WithY (1)).elemental.element)) {
 			Element elementToBe = ElementAfterConsumed(GetSurroundingElementKind());
 			this.elementToBe = elementToBe;
 			timer.StartTimer();
@@ -68,24 +68,7 @@ public abstract class Elemental : MonoBehaviour, Listener {
 		return tile.GridManager.GetTile (tile.GridLoc.WithY (1)).elemental.element;
 	}
 
-	protected abstract bool IsConsumabledBy(Elemental elemental);
-
-	protected bool Consumes(Elemental consumer, Elemental consumee) {
-		if (consumee.IsConsumabledBy (consumer)) {
-			Tile[] adjacentTiles = consumee.tile.GridManager.GetAdjacentTiles(consumee.tile.GridLoc);
-			foreach (Tile t in adjacentTiles) {
-				if (t == null) {
-					return false;
-				}
-				if (t.elemental.element != consumer.element) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		return false;
-	}
+	protected abstract bool IsConsumableBy(Element element);
 
 	public abstract Element ElementAfterConsumed(Element consumer);
 

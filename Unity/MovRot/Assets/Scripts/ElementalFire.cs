@@ -4,15 +4,10 @@ public class ElementalFire : Elemental
 	protected new void Awake() {
 		base.Awake ();
 		element = Element.FIRE;
-	}/*
-	protected new void Start() {
-		base.Start ();
-		//tile = GetComponentInParent<Tile> ();
-		element = Element.FIRE;
-	}*/
+	}
 
-	protected override bool IsConsumabledBy(Elemental elemental) {
-		if (elemental.Element == Element.NONE || elemental.Element == element) {
+	protected override bool IsConsumableBy(Element otherElement) {
+		if (otherElement == Element.NONE || otherElement == element) {
 			return false;
 		}
 		return true;

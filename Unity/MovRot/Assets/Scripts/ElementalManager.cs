@@ -28,8 +28,7 @@ public class ElementalManager : MonoBehaviour {
 		newE.tile = tile;
 		tile.elemental = newE;
 
-		oldElemental.SetActive (false);
-
+		Destroy (oldElemental);
 	}
 
 }

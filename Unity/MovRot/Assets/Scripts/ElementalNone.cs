@@ -8,8 +8,8 @@ public class ElementalNone : Elemental
 		element = Element.NONE;
 	}
 	
-	protected override bool IsConsumabledBy(Elemental elemental) {
-		if (elemental.Element == Element.NONE) {
+	protected override bool IsConsumableBy(Element otherElement) {
+		if (otherElement == Element.NONE) {
 			return false;
 		}
 		return true;
