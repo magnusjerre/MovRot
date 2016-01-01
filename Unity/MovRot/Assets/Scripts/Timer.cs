@@ -28,6 +28,10 @@ public class Timer : MonoBehaviour
 		condition = true;
 	}
 
+	public void PauseTimer() {
+		condition = false;
+	}
+
 	public void Abort() {
 		if (elapsedTime + delta > timer) {
 			listener.Notify(this);

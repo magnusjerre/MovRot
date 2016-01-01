@@ -74,7 +74,7 @@ public abstract class Elemental : MonoBehaviour, Listener {
 
 	#region Listener implementation
 
-	public void Notify (object o)
+	public virtual void Notify (object o)
 	{
 		elementalManager.ReplaceElemental (tile, elementToBe);
 	}
