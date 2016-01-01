@@ -23,7 +23,13 @@ public class MoveScript : MonoBehaviour, Listener
 	private float a = -4.9f, b;
 	
 	public Listener movementListener;
-	
+
+	private Vector3 zero;
+
+	void Awake() {
+		zero = transform.localPosition;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -112,7 +118,7 @@ public class MoveScript : MonoBehaviour, Listener
 		} else {
 			elementToMove.GridLoc (endPos);
 			transform.parent = finalTile.transform;
-			transform.localPosition = Vector3.zero;
+			transform.localPosition = zero;
 			movementListener.Notify(this);
 		}
 	}
