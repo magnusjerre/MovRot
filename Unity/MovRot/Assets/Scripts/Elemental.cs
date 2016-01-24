@@ -16,13 +16,20 @@ public abstract class Elemental : MonoBehaviour, Listener {
 
 	public bool IsSurrounded { get; set; }
 
+	IElementAffectable[] affectables;
+
 	protected void Awake() {
 		elementalManager = GameObject.FindGameObjectWithTag ("ElementalManager").GetComponent<ElementalManager>();
 		tile = GetComponentInParent<Tile> ();
+
 	}
 
 	protected void Start() {
 		timer.listener = this;
+		affectables = transform.parent.gameObject.GetComponentsInChildren<IElementAffectable> ();
+		foreach (IElementAffectable affectable in affectables) {
+			affectable.doAffect(element);
+		}
 		ConsumedByAdjacent ();
 	}
 
@@ -77,6 +84,9 @@ public abstract class Elemental : MonoBehaviour, Listener {
 	public virtual void Notify (object o)
 	{
 		elementalManager.ReplaceElemental (tile, elementToBe);
+		foreach (IElementAffectable affectable in affectables) {
+			affectable.doAffect(element);
+		}
 	}
 
 	#endregion
