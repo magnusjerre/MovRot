@@ -15,6 +15,8 @@ public class MoveScript : MonoBehaviour, Listener
 	public bool isJumping = false;
 	public bool isFalling = false;
 	public bool isFinished = false;
+    public bool isLanding = false;
+    public bool startFalling = false;
 	
 	private Timer timer;
 	float moveTime, jumpTime;
@@ -53,6 +55,10 @@ public class MoveScript : MonoBehaviour, Listener
 			float dt = timer.elapsedTime;
 			float y = a * dt * dt + b * dt;
 			Vector3 pos = transform.localPosition;
+            if (y < 0.25f && dt > timer.timer * 0.75f)
+            {
+                isLanding = true;
+            }
 			transform.localPosition = new Vector3 (pos.x + direction.x * dDistance, y * transform.localScale.y, pos.z + direction.y * dDistance);
 		} else if (isFalling) {
 			float dt = timer.elapsedTime;
@@ -65,13 +71,24 @@ public class MoveScript : MonoBehaviour, Listener
 	public void Fall() {
 		if (isFinished || isMoving || isJumping || isFalling)
 			return;
-		
+        Debug.Log("Kaller på Fall");
+
+        startFalling = true;
 		isFalling = true;
+        isMoving = false;
+        isJumping = false;
+        isLanding = false;
 		timer.timer = 2f;
 		timer.StartTimer ();
 	}
-	
-	public void MoveDirection(MoveDirection moveDirection, int distance) {
+
+    public void RegisterFallAnim()
+    {
+        startFalling = false;
+    }
+
+
+    public void MoveDirection(MoveDirection moveDirection, int distance) {
 		if (isFinished || isMoving || isJumping || isFalling) 
 			return;
 		
@@ -101,6 +118,7 @@ public class MoveScript : MonoBehaviour, Listener
 		
 		isMoving = false;
 		isJumping = false;
+        isLanding = false;
 		timer.Reset ();
 		
 		//Set final positions

@@ -21,8 +21,20 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 
 	public void Move(float moveVertical, float moveHorizontal) {
 		if (gridManager.IsRotatingAnim () || moveScript.isMoving || moveScript.isJumping || moveScript.isFalling) {
-			return;
+            if (moveScript.isLanding)
+            {
+                anim.SetBool("jump", false);
+                moveScript.isLanding = false;
+                moveScript.isJumping = false;
+            }
+            if (moveScript.startFalling)
+            {
+                anim.SetTrigger("fall");
+                moveScript.RegisterFallAnim();
+            }
+            return;
 		}
+        Debug.Log("forbi if setning");
 
 		if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;
@@ -59,13 +71,18 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 				}
 			}
 		}
-
+        
 		if (moveScript.isMoving) {
 			anim.SetFloat ("speed", 1f);
 		} else {
 			anim.SetFloat ("speed", 0f);
 		}
-	}
+
+        if (moveScript.isJumping)
+        {
+            anim.SetBool("jump", true);
+        }
+    }
 
 	public void RotateClockwise(bool clockwise) {
 		if (gridManager.IsRotatingAnim () || moveScript.isMoving || moveScript.isJumping || moveScript.isFalling) {
