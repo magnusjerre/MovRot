@@ -1,27 +1,287 @@
 fileFormatVersion: 2
-guid: 78c8f22ec7b6ec145a6e3e911da6a6e7
-timeCreated: 1453626066
+guid: 290b86fb98a26114381774c016043c83
+timeCreated: 1457808331
 licenseType: Free
 ModelImporter:
-  serializedVersion: 18
+  serializedVersion: 19
   fileIDToRecycleName:
-    100000: pearl
-    100002: snow1
+    100000: leafs
+    100002: snow
     100004: //RootNode
     100006: tree
-    400000: pearl
-    400002: snow1
+    100008: leafs2
+    100010: leafs3
+    100012: leafs4
+    100014: leafs5
+    100016: leafs6
+    100018: leafs7
+    100020: trees_leafDoubleSided
+    100022: trees_leafDoubleSided10
+    100024: trees_leafDoubleSided11
+    100026: trees_leafDoubleSided12
+    100028: trees_leafDoubleSided13
+    100030: trees_leafDoubleSided14
+    100032: trees_leafDoubleSided15
+    100034: trees_leafDoubleSided16
+    100036: trees_leafDoubleSided17
+    100038: trees_leafDoubleSided18
+    100040: trees_leafDoubleSided19
+    100042: trees_leafDoubleSided6
+    100044: trees_leafDoubleSided7
+    100046: trees_leafDoubleSided8
+    100048: trees_leafDoubleSided9
+    100050: trees_lefaDSFlipped
+    100052: trees_lefaDSFlipped1
+    100054: trees_lefaDSFlipped10
+    100056: trees_lefaDSFlipped11
+    100058: trees_lefaDSFlipped12
+    100060: trees_lefaDSFlipped13
+    100062: trees_lefaDSFlipped14
+    100064: trees_lefaDSFlipped15
+    100066: trees_lefaDSFlipped16
+    100068: trees_lefaDSFlipped17
+    100070: trees_lefaDSFlipped18
+    100072: trees_lefaDSFlipped19
+    100074: trees_lefaDSFlipped2
+    100076: trees_lefaDSFlipped20
+    100078: trees_lefaDSFlipped21
+    100080: trees_lefaDSFlipped22
+    100082: trees_lefaDSFlipped23
+    100084: trees_lefaDSFlipped24
+    100086: trees_lefaDSFlipped25
+    100088: trees_lefaDSFlipped26
+    100090: trees_lefaDSFlipped27
+    100092: trees_lefaDSFlipped28
+    100094: trees_lefaDSFlipped29
+    100096: trees_lefaDSFlipped3
+    100098: trees_lefaDSFlipped30
+    100100: trees_lefaDSFlipped4
+    100102: trees_lefaDSFlipped5
+    100104: trees_lefaDSFlipped6
+    100106: trees_lefaDSFlipped7
+    100108: trees_lefaDSFlipped8
+    100110: trees_lefaDSFlipped9
+    400000: leafs
+    400002: snow
     400004: //RootNode
     400006: tree
-    2300000: pearl
-    2300002: snow1
+    400008: leafs2
+    400010: leafs3
+    400012: leafs4
+    400014: leafs5
+    400016: leafs6
+    400018: leafs7
+    400020: trees_leafDoubleSided
+    400022: trees_leafDoubleSided10
+    400024: trees_leafDoubleSided11
+    400026: trees_leafDoubleSided12
+    400028: trees_leafDoubleSided13
+    400030: trees_leafDoubleSided14
+    400032: trees_leafDoubleSided15
+    400034: trees_leafDoubleSided16
+    400036: trees_leafDoubleSided17
+    400038: trees_leafDoubleSided18
+    400040: trees_leafDoubleSided19
+    400042: trees_leafDoubleSided6
+    400044: trees_leafDoubleSided7
+    400046: trees_leafDoubleSided8
+    400048: trees_leafDoubleSided9
+    400050: trees_lefaDSFlipped
+    400052: trees_lefaDSFlipped1
+    400054: trees_lefaDSFlipped10
+    400056: trees_lefaDSFlipped11
+    400058: trees_lefaDSFlipped12
+    400060: trees_lefaDSFlipped13
+    400062: trees_lefaDSFlipped14
+    400064: trees_lefaDSFlipped15
+    400066: trees_lefaDSFlipped16
+    400068: trees_lefaDSFlipped17
+    400070: trees_lefaDSFlipped18
+    400072: trees_lefaDSFlipped19
+    400074: trees_lefaDSFlipped2
+    400076: trees_lefaDSFlipped20
+    400078: trees_lefaDSFlipped21
+    400080: trees_lefaDSFlipped22
+    400082: trees_lefaDSFlipped23
+    400084: trees_lefaDSFlipped24
+    400086: trees_lefaDSFlipped25
+    400088: trees_lefaDSFlipped26
+    400090: trees_lefaDSFlipped27
+    400092: trees_lefaDSFlipped28
+    400094: trees_lefaDSFlipped29
+    400096: trees_lefaDSFlipped3
+    400098: trees_lefaDSFlipped30
+    400100: trees_lefaDSFlipped4
+    400102: trees_lefaDSFlipped5
+    400104: trees_lefaDSFlipped6
+    400106: trees_lefaDSFlipped7
+    400108: trees_lefaDSFlipped8
+    400110: trees_lefaDSFlipped9
+    2300000: leafs
+    2300002: snow
     2300004: tree
-    3300000: pearl
-    3300002: snow1
+    2300006: leafs2
+    2300008: leafs3
+    2300010: leafs4
+    2300012: leafs5
+    2300014: leafs6
+    2300016: leafs7
+    2300018: trees_leafDoubleSided
+    2300020: trees_leafDoubleSided10
+    2300022: trees_leafDoubleSided11
+    2300024: trees_leafDoubleSided12
+    2300026: trees_leafDoubleSided13
+    2300028: trees_leafDoubleSided14
+    2300030: trees_leafDoubleSided15
+    2300032: trees_leafDoubleSided16
+    2300034: trees_leafDoubleSided17
+    2300036: trees_leafDoubleSided18
+    2300038: trees_leafDoubleSided19
+    2300040: trees_leafDoubleSided6
+    2300042: trees_leafDoubleSided7
+    2300044: trees_leafDoubleSided8
+    2300046: trees_leafDoubleSided9
+    2300048: trees_lefaDSFlipped
+    2300050: trees_lefaDSFlipped1
+    2300052: trees_lefaDSFlipped10
+    2300054: trees_lefaDSFlipped11
+    2300056: trees_lefaDSFlipped12
+    2300058: trees_lefaDSFlipped13
+    2300060: trees_lefaDSFlipped14
+    2300062: trees_lefaDSFlipped15
+    2300064: trees_lefaDSFlipped16
+    2300066: trees_lefaDSFlipped17
+    2300068: trees_lefaDSFlipped18
+    2300070: trees_lefaDSFlipped19
+    2300072: trees_lefaDSFlipped2
+    2300074: trees_lefaDSFlipped20
+    2300076: trees_lefaDSFlipped21
+    2300078: trees_lefaDSFlipped22
+    2300080: trees_lefaDSFlipped23
+    2300082: trees_lefaDSFlipped24
+    2300084: trees_lefaDSFlipped25
+    2300086: trees_lefaDSFlipped26
+    2300088: trees_lefaDSFlipped27
+    2300090: trees_lefaDSFlipped28
+    2300092: trees_lefaDSFlipped29
+    2300094: trees_lefaDSFlipped3
+    2300096: trees_lefaDSFlipped30
+    2300098: trees_lefaDSFlipped4
+    2300100: trees_lefaDSFlipped5
+    2300102: trees_lefaDSFlipped6
+    2300104: trees_lefaDSFlipped7
+    2300106: trees_lefaDSFlipped8
+    2300108: trees_lefaDSFlipped9
+    3300000: leafs
+    3300002: snow
     3300004: tree
+    3300006: leafs2
+    3300008: leafs3
+    3300010: leafs4
+    3300012: leafs5
+    3300014: leafs6
+    3300016: leafs7
+    3300018: trees_leafDoubleSided
+    3300020: trees_leafDoubleSided10
+    3300022: trees_leafDoubleSided11
+    3300024: trees_leafDoubleSided12
+    3300026: trees_leafDoubleSided13
+    3300028: trees_leafDoubleSided14
+    3300030: trees_leafDoubleSided15
+    3300032: trees_leafDoubleSided16
+    3300034: trees_leafDoubleSided17
+    3300036: trees_leafDoubleSided18
+    3300038: trees_leafDoubleSided19
+    3300040: trees_leafDoubleSided6
+    3300042: trees_leafDoubleSided7
+    3300044: trees_leafDoubleSided8
+    3300046: trees_leafDoubleSided9
+    3300048: trees_lefaDSFlipped
+    3300050: trees_lefaDSFlipped1
+    3300052: trees_lefaDSFlipped10
+    3300054: trees_lefaDSFlipped11
+    3300056: trees_lefaDSFlipped12
+    3300058: trees_lefaDSFlipped13
+    3300060: trees_lefaDSFlipped14
+    3300062: trees_lefaDSFlipped15
+    3300064: trees_lefaDSFlipped16
+    3300066: trees_lefaDSFlipped17
+    3300068: trees_lefaDSFlipped18
+    3300070: trees_lefaDSFlipped19
+    3300072: trees_lefaDSFlipped2
+    3300074: trees_lefaDSFlipped20
+    3300076: trees_lefaDSFlipped21
+    3300078: trees_lefaDSFlipped22
+    3300080: trees_lefaDSFlipped23
+    3300082: trees_lefaDSFlipped24
+    3300084: trees_lefaDSFlipped25
+    3300086: trees_lefaDSFlipped26
+    3300088: trees_lefaDSFlipped27
+    3300090: trees_lefaDSFlipped28
+    3300092: trees_lefaDSFlipped29
+    3300094: trees_lefaDSFlipped3
+    3300096: trees_lefaDSFlipped30
+    3300098: trees_lefaDSFlipped4
+    3300100: trees_lefaDSFlipped5
+    3300102: trees_lefaDSFlipped6
+    3300104: trees_lefaDSFlipped7
+    3300106: trees_lefaDSFlipped8
+    3300108: trees_lefaDSFlipped9
     4300000: tree
-    4300002: snow1
-    4300004: pearl
+    4300002: leafs
+    4300004: snow
+    4300006: leafs2
+    4300008: leafs3
+    4300010: leafs4
+    4300012: leafs5
+    4300014: leafs6
+    4300016: leafs7
+    4300018: trees_leafDoubleSided
+    4300020: trees_lefaDSFlipped
+    4300022: trees_lefaDSFlipped3
+    4300024: trees_lefaDSFlipped4
+    4300026: trees_leafDoubleSided17
+    4300028: trees_leafDoubleSided18
+    4300030: trees_leafDoubleSided15
+    4300032: trees_leafDoubleSided14
+    4300034: trees_leafDoubleSided13
+    4300036: trees_lefaDSFlipped9
+    4300038: trees_lefaDSFlipped8
+    4300040: trees_lefaDSFlipped11
+    4300042: trees_lefaDSFlipped10
+    4300044: trees_leafDoubleSided12
+    4300046: trees_leafDoubleSided11
+    4300048: trees_leafDoubleSided10
+    4300050: trees_lefaDSFlipped13
+    4300052: trees_lefaDSFlipped17
+    4300054: trees_lefaDSFlipped16
+    4300056: trees_lefaDSFlipped12
+    4300058: trees_leafDoubleSided9
+    4300060: trees_leafDoubleSided8
+    4300062: trees_lefaDSFlipped19
+    4300064: trees_lefaDSFlipped18
+    4300066: trees_leafDoubleSided7
+    4300068: trees_lefaDSFlipped21
+    4300070: trees_lefaDSFlipped20
+    4300072: trees_lefaDSFlipped15
+    4300074: trees_lefaDSFlipped14
+    4300076: trees_leafDoubleSided6
+    4300078: trees_lefaDSFlipped5
+    4300080: trees_lefaDSFlipped23
+    4300082: trees_lefaDSFlipped26
+    4300084: trees_lefaDSFlipped22
+    4300086: trees_lefaDSFlipped6
+    4300088: trees_lefaDSFlipped2
+    4300090: trees_lefaDSFlipped25
+    4300092: trees_lefaDSFlipped24
+    4300094: trees_lefaDSFlipped27
+    4300096: trees_leafDoubleSided19
+    4300098: trees_leafDoubleSided16
+    4300100: trees_lefaDSFlipped1
+    4300102: trees_lefaDSFlipped30
+    4300104: trees_lefaDSFlipped29
+    4300106: trees_lefaDSFlipped28
+    4300108: trees_lefaDSFlipped7
   materials:
     importMaterials: 1
     materialName: 0
@@ -29,6 +289,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleRotations: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
@@ -36,19 +297,19 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 20
     meshCompression: 0
     addColliders: 0
-    importBlendShapes: 1
+    importBlendShapes: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -61,25 +322,26 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 0
-    splitTangentsAcrossUV: 1
-    normalImportMode: 1
-    tangentImportMode: 1
-  importAnimation: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
+  humanoidOversampling: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
