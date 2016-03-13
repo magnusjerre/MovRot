@@ -45,7 +45,7 @@ public class GridManager : MonoBehaviour {
 		} else if(isMovingDown) {
 			MoveDown();
 		} else if (isRotating) {	//Means it's rotating
-
+            Debug.Log("inside isRotating");
 			elapsedRotationTime += Time.deltaTime;
 			if (elapsedRotationTime > rotationTime) {
 				elapsedRotationTime = rotationTime;

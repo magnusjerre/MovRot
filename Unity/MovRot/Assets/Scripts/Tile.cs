@@ -16,7 +16,11 @@ public class Tile : MonoBehaviour, ITraversable {
 	public void PerformAction(ActionType type) {
 		if (Array.Exists (actionTypes, at => type == at)) {
 			if (--HP < 1) {
-				GetComponentInChildren<GridElement>().NotifyTileDestroyed(this);
+                GridElement gridElement = GetComponentInChildren<GridElement>();
+                if (gridElement != null)
+                {
+				    GetComponentInChildren<GridElement>().NotifyTileDestroyed(this);
+                }
 				Destroy();
 			}
 		}

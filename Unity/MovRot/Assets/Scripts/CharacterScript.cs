@@ -34,7 +34,6 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
             }
             return;
 		}
-        Debug.Log("forbi if setning");
 
 		if (moveVertical != 0) {
 			int dy = moveVertical > 0 ? 1 : -1;

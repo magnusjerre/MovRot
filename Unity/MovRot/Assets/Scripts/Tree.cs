@@ -19,7 +19,6 @@ public class Tree : MonoBehaviour, IElementAffectable
 
 	void Awake() {
 		treeMat = treeStem.GetComponent<Renderer> ().material;
-		treeIceMat = treeIce.GetComponent<Renderer> ().material;
 		treePearlMat = treePearl.GetComponent<Renderer> ().material;
 
 		treePearlMat.EnableKeyword ("_EMISSION");
@@ -41,7 +40,6 @@ public class Tree : MonoBehaviour, IElementAffectable
 	// Use this for initialization
 	void Start ()
 	{
-		treeIceMat.color = treeIceNormalColor;
 		doNormal ();
 	}
 	
