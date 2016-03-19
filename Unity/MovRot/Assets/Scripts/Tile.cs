@@ -15,13 +15,17 @@ public class Tile : MonoBehaviour, ITraversable {
 	public ActionType[] actionTypes = new ActionType[0];
 	public void PerformAction(ActionType type) {
 		if (Array.Exists (actionTypes, at => type == at)) {
+			GetComponent<MaterialChanger> ().NextMaterial ();
+			GetComponentInChildren<ParticleBurstEmitter> ().Emit ();
 			if (--HP < 1) {
-                GridElement gridElement = GetComponentInChildren<GridElement>();
+				GridElement gridElement = GetComponentInChildren<GridElement>();
                 if (gridElement != null)
                 {
 				    GetComponentInChildren<GridElement>().NotifyTileDestroyed(this);
                 }
-				Destroy();
+				GetComponentInChildren<Elemental> ().gameObject.SetActive (false);
+				GetComponentInChildren<ParticleBurstEmitter> ().RemoveWhenFinished ();
+				//Destroy();
 			}
 		}
 	}
