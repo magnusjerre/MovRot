@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MoveScript : MonoBehaviour, Listener
 {
@@ -23,19 +24,33 @@ public class MoveScript : MonoBehaviour, Listener
 	
 	//Jumping
 	private float a = -4.9f, b;
-	
-	public Listener movementListener;
+
+	List<Listener> movementListeners;
 
 	private Vector3 zero;
 
+	public void AddListener(Listener l) {
+		if (!movementListeners.Contains (l)) {
+			movementListeners.Add (l);
+		}
+	}
+
+	public void RemoveListener(Listener l) {
+		movementListeners.Remove (l);
+	}
+
 	void Awake() {
 		zero = transform.localPosition;
+		movementListeners = new List<Listener> ();
+		elementToMove = GetComponent<GridElement> ();
 	}
+
+
 
 	// Use this for initialization
 	void Start ()
 	{
-		elementToMove = GetComponent<GridElement> ();
+		Debug.Log ("Start for MoveScript called");
 		moveTime = 1f / moveSpeed;
 		jumpTime = 1f / jumpSpeed * 2f;	//will otherwise stop halfway
 		timer = GetComponent<Timer> ();
@@ -129,7 +144,9 @@ public class MoveScript : MonoBehaviour, Listener
 			if (isFalling) { //Is already falling
 				isFalling = false;
 				isFinished = true;
-				movementListener.Notify(this);
+				foreach (Listener l in movementListeners) {
+					l.Notify (this);
+				}
 			} else {
 				Fall();
 			}
@@ -137,7 +154,9 @@ public class MoveScript : MonoBehaviour, Listener
 			elementToMove.GridLoc (endPos);
 			transform.parent = finalTile.transform;
 			transform.localPosition = zero;
-			movementListener.Notify(this);
+			foreach (Listener l in movementListeners) {
+				l.Notify (this);
+			}
 		}
 	}
 	

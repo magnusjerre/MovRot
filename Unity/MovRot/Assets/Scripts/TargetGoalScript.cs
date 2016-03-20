@@ -17,7 +17,7 @@ public class TargetGoalScript : TargetScript {
 			if (Completed) {
                 ShowCompleted();
 				other.gameObject.GetComponent<Animator>().SetTrigger("celebrate");
-				gameController.IsGameOver = true;
+				gameController.DisplayGameWon ();
 			}
 		}
 	}
@@ -25,11 +25,7 @@ public class TargetGoalScript : TargetScript {
     public override void ShowRequirementsNotMet()
     {
         Debug.Log("Target goal script");
-        //Disse skal vises
-        foreach (Renderer renderer in diamondRenderers)
-        {
-            //renderer.gameObject.SetActive(false);
-        }
+        //Skal ikke skjule måldiamantene
     }
 
 }

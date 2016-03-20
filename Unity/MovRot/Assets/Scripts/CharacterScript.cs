@@ -16,7 +16,7 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 		gridLoc = gridManager.PosToGrid (transform.parent.localPosition);
 		gameController = GameObject.FindObjectOfType<GameControllerScript> ();
 		moveScript = GetComponent<MoveScript> ();
-		moveScript.movementListener = this;
+		moveScript.AddListener (this);
 	}
 
 	public void Move(float moveVertical, float moveHorizontal) {
@@ -116,7 +116,7 @@ public class CharacterScript : MonoBehaviour, GridElement, Listener {
 	{
 		transform.parent = gridManager.transform;
 		moveScript.Fall ();
-		gameController.IsGameOver = true;
+		gameController.DisplayGameOver ();
 	}
 
 	#endregion

@@ -240,4 +240,16 @@ public class GridManager : MonoBehaviour {
 		adjacentTiles [3] = GetTile (loc.WithX (-1));
 		return adjacentTiles;
 	}
+
+	public Tile[] GetAllOtherTilesThan(Loc2D loc) {
+		List<Tile> otherTiles = new List<Tile> ();
+		for (int x = 0; x < grid.GetLength(0); x++) {
+			for (int y = 0; y < grid.GetLength (1); y++) {
+				if (!(x == loc.x && y == loc.y) && grid [x, y] != null) {
+					otherTiles.Add (grid [x, y]);
+				}
+			}
+		}
+		return otherTiles.ToArray();
+	}
 }

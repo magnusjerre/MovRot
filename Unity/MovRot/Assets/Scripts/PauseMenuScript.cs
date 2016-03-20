@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PauseMenuScript : MonoBehaviour
@@ -13,15 +14,18 @@ public class PauseMenuScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
 	}
 
 	public void RestartLevel() {
-		Application.LoadLevel (Application.loadedLevel);
+		Scene scene = SceneManager.GetActiveScene ();
+		SceneManager.LoadScene (scene.buildIndex);
+		Time.timeScale = 1f;
 	}
 
 	public void LoadMenu() {
-		Application.LoadLevel (GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameControllerScript> ().levelId);
+		SceneManager.LoadScene (0);
+		Time.timeScale = 1f;
 	}
 }
 
